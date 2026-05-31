@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>EduSync — All Plans School Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#07091a;--bg2:#0d1127;--bg3:#131929;
+  --s1:rgba(255,255,255,.04);--s2:rgba(255,255,255,.08);--s3:rgba(255,255,255,.13);
+  --line:rgba(255,255,255,.07);--muted:#5a6a8a;--muted2:#8a9ab8;
+  --blue:#3b82f6;--teal:#14b8a6;--violet:#8b5cf6;--amber:#f59e0b;
+  --rose:#f43f5e;--em:#10b981;--gold:#fbbf24;--cyan:#06b6d4;--pink:#ec4899;
+  --sw:268px;--hh:64px;--r:16px;--rs:10px;
+  --sh:0 4px 24px rgba(0,0,0,.35);--shl:0 16px 56px rgba(0,0,0,.5);
+  --plan-color:#3b82f6;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:#dde4f2;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
+
+/* ── AUTH ── */
+.auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden}
+.auth-bg{position:fixed;inset:0;z-index:0}
+.auth-orb{position:absolute;border-radius:50%;filter:blur(120px)}
+.orb1{width:500px;height:500px;background:rgba(59,130,246,.07);top:-200px;left:-150px}
+.orb2{width:600px;height:600px;background:rgba(139,92,246,.055);bottom:-250px;right:-200px}
+.orb3{width:400px;height:400px;background:rgba(20,184,166,.045);top:40%;left:35%}
+.auth-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.011) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.011) 1px,transparent 1px);background-size:48px 48px}
+.auth-card{position:relative;z-index:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:42px 38px;width:100%;max-width:480px;backdrop-filter:blur(24px);box-shadow:var(--shl),inset 0 1px 0 rgba(255,255,255,.07);animation:slideUp .5s cubic-bezier(.16,1,.3,1)}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px) scale(.97)}to{opacity:1;transform:none}}
+
+/* ── LOGO AREA ── */
+.auth-logo{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+.auth-logo-mark{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--blue),var(--teal));display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 20px rgba(59,130,246,.38);flex-shrink:0;overflow:hidden}
+.auth-logo-mark img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.auth-logo-text{font-family:'Outfit',sans-serif;font-size:24px;font-weight:800;letter-spacing:-.5px}
+.plan-badge{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:4px 12px;font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-bottom:20px}
+.role-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:18px}
+.role-chip{padding:10px 4px;border:1.5px solid rgba(255,255,255,.08);border-radius:11px;cursor:pointer;text-align:center;transition:all .18s;background:rgba(255,255,255,.03)}
+.role-chip:hover{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.06)}
+.role-chip.act{border-color:var(--plan-color);background:rgba(59,130,246,.12)}
+.role-chip .ri{font-size:18px;margin-bottom:3px}.role-chip .rn{font-size:9.5px;font-weight:600;color:var(--muted2)}
+.role-chip.act .rn{color:var(--blue)}
+.fld{margin-bottom:15px}
+.lbl{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:5px;letter-spacing:.5px;text-transform:uppercase}
+.inp{width:100%;padding:11px 13px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.09);border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13.5px;color:#e2e8f0;transition:all .2s}
+.inp:focus{outline:none;border-color:var(--plan-color);background:rgba(59,130,246,.06)}
+.inp::placeholder{color:var(--muted)}.inp-sel{appearance:none;cursor:pointer}.inp-ta{resize:vertical;min-height:78px}
+.auth-btn{width:100%;padding:13px;border:none;border-radius:11px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;transition:all .22s}
+.auth-btn.blue{background:linear-gradient(135deg,var(--blue),#6366f1);color:#fff;box-shadow:0 4px 20px rgba(59,130,246,.35)}
+.auth-btn.blue:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(59,130,246,.45)}
+.auth-note{text-align:center;margin-top:14px;font-size:12px;color:var(--muted)}
+.auth-note strong{color:var(--blue);cursor:pointer}
+
+/* ── PLAN SELECTOR (login) ── */
+.plan-selector{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.plan-opt{padding:10px;border:1.5px solid rgba(255,255,255,.08);border-radius:11px;cursor:pointer;transition:all .18s;background:rgba(255,255,255,.03)}
+.plan-opt.active{border-color:var(--plan-color)}
+.plan-opt .pn{font-size:12.5px;font-weight:700}.plan-opt .pp{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* ── SHELL ── */
+.shell{display:flex;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sw);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:100;background:rgba(7,9,26,.94);border-right:1px solid var(--line);backdrop-filter:blur(24px);transition:transform .3s}
+.sb-header{padding:18px 20px;border-bottom:1px solid var(--line)}
+.sb-school-row{display:flex;align-items:center;gap:10px}
+.sb-school-logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--teal));display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;overflow:hidden;box-shadow:0 0 14px rgba(59,130,246,.3)}
+.sb-school-logo img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.sb-school-info{flex:1;min-width:0}
+.sb-school-name{font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-app-name{font-family:'Outfit',sans-serif;font-size:16px;font-weight:800;letter-spacing:-.4px;color:#fff}
+.sb-app-name span{color:var(--blue)}
+.plan-dot{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:3px 8px;border-radius:20px;margin-top:4px}
+.sb-nav{flex:1;overflow-y:auto;padding:10px 0;scrollbar-width:none}
+.sb-nav::-webkit-scrollbar{display:none}
+.nav-sec{padding:9px 20px 3px;font-size:9px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,.18)}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px 9px 20px;cursor:pointer;color:rgba(255,255,255,.42);font-size:12.5px;font-weight:500;margin:2px 10px;border-radius:9px;transition:all .14s;position:relative}
+.nav-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.82)}
+.nav-item.act{background:rgba(59,130,246,.13);color:#fff;font-weight:600}
+.nav-item.act::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);width:3px;height:50%;background:var(--plan-color,var(--blue));border-radius:4px;box-shadow:0 0 8px var(--plan-color,var(--blue))}
+.nav-ic{font-size:15px;width:19px;text-align:center;flex-shrink:0}
+.nav-bdg{margin-left:auto;font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;flex-shrink:0;letter-spacing:.3px}
+.nb-new{background:rgba(16,185,129,.13);color:#34d399;border:1px solid rgba(16,185,129,.2)}
+.nb-hot{background:rgba(244,63,94,.13);color:#fb7185;border:1px solid rgba(244,63,94,.2)}
+.nb-num{background:rgba(244,63,94,.17);color:#fda4af;border:1px solid rgba(244,63,94,.2)}
+.nb-pro{background:rgba(139,92,246,.13);color:#c4b5fd;border:1px solid rgba(139,92,246,.2)}
+.sb-footer{padding:14px 18px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.sb-av{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,rgba(59,130,246,.22),rgba(139,92,246,.2));border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;overflow:hidden}
+.sb-av img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.sb-un{font-size:12.5px;font-weight:600;color:rgba(255,255,255,.88)}
+.sb-ur{font-size:11px;color:var(--muted);text-transform:capitalize}
+.sb-lo{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.22);cursor:pointer;font-size:16px;padding:3px;transition:color .18s}
+.sb-lo:hover{color:rgba(255,255,255,.7)}
+
+/* ── MOBILE MENU ── */
+.mob-bar{display:none;height:var(--hh);align-items:center;padding:0 18px;gap:12px;background:rgba(7,9,26,.95);border-bottom:1px solid var(--line);backdrop-filter:blur(20px);position:sticky;top:0;z-index:50}
+.mob-logo{font-family:'Outfit',sans-serif;font-size:19px;font-weight:800;color:#fff;flex:1}
+.mob-logo span{color:var(--blue)}
+.mob-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.09);border-radius:9px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;color:rgba(255,255,255,.7)}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99;backdrop-filter:blur(4px)}
+
+/* ── MAIN ── */
+.main-area{margin-left:var(--sw);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{height:var(--hh);display:flex;align-items:center;padding:0 28px;gap:14px;position:sticky;top:0;z-index:50;background:rgba(7,9,26,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(20px)}
+.top-ttl{font-size:18px;font-weight:700;letter-spacing:-.3px;flex:1}
+.top-dt{font-size:12px;color:var(--muted);white-space:nowrap}
+.top-notif{width:36px;height:36px;border-radius:10px;border:none;cursor:pointer;background:var(--s1);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:16px;position:relative;transition:background .18s}
+.top-notif:hover{background:var(--s2)}
+.notif-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;background:var(--rose);border-radius:50%;border:2px solid var(--bg)}
+.pg{padding:24px 28px}
+@keyframes pgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.pg-in{animation:pgIn .3s cubic-bezier(.16,1,.3,1)}
+
+/* ── GLASS CARDS ── */
+.gc{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);transition:border-color .18s}
+.gc:hover{border-color:rgba(255,255,255,.13)}.gcp{padding:20px 22px}
+.gct{font-size:14px;font-weight:700;margin-bottom:14px;letter-spacing:-.2px;display:flex;align-items:center;gap:8px}
+
+/* ── STAT CARDS ── */
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:12px;margin-bottom:20px}
+.sc{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:18px 19px;transition:all .2s;position:relative;overflow:hidden}
+.sc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gc,rgba(59,130,246,.05)) 0%,transparent 55%)}
+.sc:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.14);box-shadow:var(--sh)}
+.sc-ic{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:11px}
+.sc-lb{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.sc-v{font-family:'Outfit',sans-serif;font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1;margin-bottom:4px}
+.sc-s{font-size:11px;color:var(--muted)}.up{color:var(--em)!important}.dn{color:var(--rose)!important}
+
+/* ── LAYOUT ── */
+.two-c{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.thr-c{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .17s;border:none;white-space:nowrap}
+.btn-sm{padding:5px 12px;font-size:12px}.btn-xs{padding:4px 9px;font-size:11px}.btn-lg{padding:12px 22px;font-size:14px}
+.bb{background:linear-gradient(135deg,var(--blue),#6366f1);color:#fff;box-shadow:0 3px 12px rgba(59,130,246,.28)}
+.bb:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(59,130,246,.38)}
+.be{background:linear-gradient(135deg,var(--em),#059669);color:#fff}
+.bv{background:linear-gradient(135deg,var(--violet),#a855f7);color:#fff}
+.bv:hover{transform:translateY(-1px)}
+.ba{background:linear-gradient(135deg,var(--amber),#f97316);color:#0a0e1a;font-weight:700}
+.br{background:linear-gradient(135deg,var(--rose),#e11d48);color:#fff}
+.bg2{background:linear-gradient(135deg,var(--gold),#f97316);color:#0a0e1a;font-weight:700}
+.bgh{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.78)}
+.bgh:hover{background:rgba(255,255,255,.12)}
+.bw{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff}
+.bw:hover{transform:translateY(-1px)}
+.bt{background:linear-gradient(135deg,var(--teal),#0891b2);color:#fff}
+.bcyan{background:linear-gradient(135deg,var(--cyan),#0891b2);color:#fff}
+
+/* ── BADGES ── */
+.bdg{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-bl{background:rgba(59,130,246,.13);color:#60a5fa;border:1px solid rgba(59,130,246,.2)}
+.b-em{background:rgba(16,185,129,.11);color:#34d399;border:1px solid rgba(16,185,129,.18)}
+.b-am{background:rgba(245,158,11,.11);color:#fbbf24;border:1px solid rgba(245,158,11,.18)}
+.b-ro{background:rgba(244,63,94,.11);color:#fb7185;border:1px solid rgba(244,63,94,.18)}
+.b-vi{background:rgba(139,92,246,.11);color:#a78bfa;border:1px solid rgba(139,92,246,.18)}
+.b-go{background:rgba(251,191,36,.13);color:var(--gold);border:1px solid rgba(251,191,36,.2)}
+.b-te{background:rgba(20,184,166,.11);color:#2dd4bf;border:1px solid rgba(20,184,166,.18)}
+.b-gr{background:rgba(255,255,255,.07);color:var(--muted2);border:1px solid rgba(255,255,255,.1)}
+.b-cy{background:rgba(6,182,212,.11);color:#22d3ee;border:1px solid rgba(6,182,212,.18)}
+
+/* ── TABLE ── */
+.tw{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
+.tw-h{padding:14px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px}
+.tw-t{font-size:14px;font-weight:700;letter-spacing:-.2px}
+.tw-a{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+table{width:100%;border-collapse:collapse}
+th{padding:9px 18px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);background:rgba(255,255,255,.03);border-bottom:1px solid var(--line)}
+td{padding:12px 18px;font-size:13px;color:rgba(255,255,255,.72);border-bottom:1px solid rgba(255,255,255,.05)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.025)}
+td strong{color:rgba(255,255,255,.94);font-weight:600}
+
+/* ── FORMS ── */
+.fr{margin-bottom:14px}.lb{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:5px;letter-spacing:.5px;text-transform:uppercase}
+.fi{width:100%;padding:10px 13px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.09);border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:#e2e8f0;transition:all .2s}
+.fi:focus{outline:none;border-color:var(--blue);background:rgba(59,130,246,.07)}
+.fi::placeholder{color:var(--muted)}.fi-s{appearance:none;cursor:pointer}.fi-ta{resize:vertical;min-height:78px}
+.sw-i{position:relative}.sw-i .fi{padding-left:34px}
+.si{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:14px}
+
+/* ── MODAL ── */
+.mov{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);animation:fdin .2s}
+.mi{background:rgba(10,14,28,.97);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:28px;width:100%;max-width:520px;box-shadow:var(--shl),inset 0 1px 0 rgba(255,255,255,.07);animation:moin .28s cubic-bezier(.16,1,.3,1);max-height:90vh;overflow-y:auto}
+.mi-w{max-width:680px}.mit{font-size:17px;font-weight:700;letter-spacing:-.3px;margin-bottom:20px}
+.mia{display:flex;gap:9px;margin-top:20px;justify-content:flex-end}
+@keyframes fdin{from{opacity:0}to{opacity:1}}
+@keyframes moin{from{opacity:0;transform:scale(.96) translateY(10px)}to{opacity:1;transform:none}}
+
+/* ── TOAST ── */
+.tc{position:fixed;top:18px;right:18px;z-index:500;display:flex;flex-direction:column;gap:7px;max-width:320px}
+.toast{padding:11px 16px;border-radius:11px;font-size:13px;font-weight:500;animation:tin .3s cubic-bezier(.16,1,.3,1);display:flex;align-items:center;gap:9px;backdrop-filter:blur(12px)}
+.t-s{background:rgba(16,185,129,.17);border:1px solid rgba(16,185,129,.27);color:#6ee7b7}
+.t-e{background:rgba(244,63,94,.17);border:1px solid rgba(244,63,94,.27);color:#fda4af}
+.t-i{background:rgba(59,130,246,.17);border:1px solid rgba(59,130,246,.27);color:#93c5fd}
+.t-w{background:rgba(37,211,102,.17);border:1px solid rgba(37,211,102,.27);color:#6ee7b7}
+.t-g{background:rgba(251,191,36,.17);border:1px solid rgba(251,191,36,.27);color:var(--gold)}
+@keyframes tin{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+
+/* ── MISC ── */
+.pb{height:6px;background:rgba(255,255,255,.08);border-radius:20px;overflow:hidden}
+.pf{height:100%;border-radius:20px;transition:width .55s ease}
+.ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:9px}
+.ac{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:13px;display:flex;flex-direction:column;gap:8px}
+.an{font-size:12px;font-weight:600;color:rgba(255,255,255,.9)}.ar{font-size:11px;color:var(--muted)}
+.abtns{display:flex;gap:5px}
+.abtn{flex:1;padding:5px 2px;border-radius:7px;border:1.5px solid rgba(255,255,255,.09);font-size:11px;font-weight:700;cursor:pointer;text-align:center;transition:all .14s;background:transparent;color:var(--muted2)}
+.abtn.present{border-color:var(--em);background:rgba(16,185,129,.13);color:#6ee7b7}
+.abtn.absent{border-color:var(--rose);background:rgba(244,63,94,.13);color:#fda4af}
+.abtn.late{border-color:var(--amber);background:rgba(245,158,11,.13);color:#fcd34d}
+.ann-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-left:3px solid var(--blue);border-radius:11px;padding:15px 17px;margin-bottom:8px;transition:all .17s}
+.ann-card:hover{border-color:rgba(255,255,255,.14);transform:translateX(2px)}
+.ann-card.imp{border-left-color:var(--amber)}
+.hero-banner{border-radius:var(--r);padding:20px 22px;position:relative;overflow:hidden;margin-bottom:18px}
+.hero-banner::before{content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,currentColor,transparent 70%);opacity:.15}
+
+/* ── LOGO UPLOAD ── */
+.logo-upload-zone{border:2px dashed rgba(255,255,255,.14);border-radius:var(--r);padding:28px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.logo-upload-zone:hover,.logo-upload-zone.drag{border-color:var(--blue);background:rgba(59,130,246,.06)}
+.logo-preview-wrap{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.logo-preview-large{width:72px;height:72px;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--teal));display:flex;align-items:center;justify-content:center;font-size:34px;overflow:hidden;flex-shrink:0;border:2px solid rgba(255,255,255,.1)}
+.logo-preview-large img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+
+/* ── PROFILE AVATAR ── */
+.profile-ring{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden;border:2px solid rgba(255,255,255,.12)}
+
+/* ── WA CARD ── */
+.wac{background:linear-gradient(135deg,rgba(37,211,102,.09),rgba(18,140,126,.06));border:1px solid rgba(37,211,102,.17);border-radius:var(--r);padding:18px;margin-bottom:15px}
+.wa-prev{background:rgba(37,211,102,.07);border:1px solid rgba(37,211,102,.14);border-radius:9px;padding:13px;margin-top:9px}
+.wa-prev::before{display:block;content:'WhatsApp Preview';font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--em);margin-bottom:7px}
+.wa-text{font-size:12px;color:rgba(255,255,255,.7);line-height:1.7;white-space:pre-wrap;font-family:monospace}
+
+/* ── GPS LIVE ── */
+.gps-dot{width:10px;height:10px;border-radius:50%;background:var(--em);box-shadow:0 0 8px var(--em);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* ── OWNER DASHBOARD ── */
+.owner-hero{border-radius:var(--r);padding:22px 24px;margin-bottom:18px;background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(139,92,246,.08));border:1px solid rgba(59,130,246,.2)}
+.school-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:16px;transition:all .22s;cursor:pointer}
+.school-card:hover{border-color:rgba(255,255,255,.18);transform:translateY(-2px);box-shadow:var(--sh)}
+.school-logo-sm{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden}
+.school-logo-sm img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:none}
+  .sidebar-overlay.open{display:block}
+  .main-area{margin-left:0}
+  .mob-bar{display:flex}
+  .topbar{display:none}
+  .pg{padding:16px}
+  .sg{grid-template-columns:1fr 1fr}
+  .two-c,.thr-c,.g2,.g3{grid-template-columns:1fr}
+  table{font-size:12px}
+  th,td{padding:9px 12px}
+}
+@media(max-width:480px){
+  .auth-card{padding:28px 22px}
+  .role-grid{grid-template-columns:repeat(5,1fr)}
+  .sg{grid-template-columns:1fr 1fr}
+}
+.hidden{display:none!important}
+.sep{border:none;border-top:1px solid var(--line);margin:15px 0}
+.tm{color:var(--muted)}.ts{font-size:12.5px}.mono{font-family:'Outfit',monospace}
+</style>
+</head>
+<body>
+<!-- ═══ AUTH ═══ -->
+<div id="authScreen">
+<div class="auth-bg"><div class="auth-grid-bg"></div><div class="auth-orb orb1"></div><div class="auth-orb orb2"></div><div class="auth-orb orb3"></div></div>
+<div class="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="auth-logo-mark" id="authLogoMark">🎓</div>
+      <div>
+        <div class="auth-logo-text" id="authLogoText" style="color:#fff">Edu<span style="color:var(--blue)">Sync</span></div>
+        <div style="font-size:12px;color:var(--muted);margin-top:1px">School Management Platform</div>
+      </div>
+    </div>
+    <div style="margin-bottom:18px">
+      <div class="lbl" style="margin-bottom:8px">Choose a plan to demo</div>
+      <div class="plan-selector" id="planSelector">
+        <div class="plan-opt active" onclick="setPlan(this,'basic','⚡','#3b82f6')"><div class="pn" style="color:#60a5fa">⚡ Basic</div><div class="pp">₹1,999/mo</div></div>
+        <div class="plan-opt" onclick="setPlan(this,'pro','✨','#8b5cf6')"><div class="pn" style="color:#a78bfa">✨ Pro</div><div class="pp">₹4,499/mo</div></div>
+        <div class="plan-opt" onclick="setPlan(this,'premium','💎','#f59e0b')"><div class="pn" style="color:#fbbf24">💎 Premium</div><div class="pp">₹7,999/mo</div></div>
+        <div class="plan-opt" onclick="setPlan(this,'owner','🛡️','#10b981')"><div class="pn" style="color:#34d399">🛡️ Owner</div><div class="pp">SaaS Dashboard</div></div>
+      </div>
+    </div>
+    <div style="margin-bottom:18px">
+      <div class="lbl" style="margin-bottom:8px">Select role</div>
+      <div class="role-grid" id="roleGrid">
+        <div class="role-chip act" onclick="setRole(this,'admin')"><div class="ri">👨‍💼</div><div class="rn">Admin</div></div>
+        <div class="role-chip" onclick="setRole(this,'teacher')"><div class="ri">👨‍🏫</div><div class="rn">Teacher</div></div>
+        <div class="role-chip" onclick="setRole(this,'parent')"><div class="ri">👨‍👩‍👦</div><div class="rn">Parent</div></div>
+        <div class="role-chip" onclick="setRole(this,'student')"><div class="ri">👦</div><div class="rn">Student</div></div>
+        <div class="role-chip" onclick="setRole(this,'superadmin')"><div class="ri">🛡️</div><div class="rn">Owner</div></div>
+      </div>
+    </div>
+    <div class="fld"><label class="lbl">Email</label><input type="email" class="inp" value="admin@stmarys.edu" id="authEmail"/></div>
+    <div class="fld"><label class="lbl">Password</label><input type="password" class="inp" value="demo2024" id="authPw"/></div>
+    <button class="auth-btn blue" onclick="doLogin()" id="loginBtn">Sign in to Dashboard →</button>
+    <div class="auth-note">Demo Mode — <strong onclick="doLogin()">click to explore live</strong></div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ APP ═══ -->
+<div id="appShell" class="hidden">
+<div class="shell">
+  <!-- SIDEBAR -->
+  <div class="sidebar-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-header">
+      <div class="sb-school-row">
+        <div class="sb-school-logo" id="sbLogo">🎓</div>
+        <div class="sb-school-info">
+          <div class="sb-app-name">Edu<span>Sync</span></div>
+          <div class="sb-school-name" id="sbSchoolName">St. Mary's School</div>
+          <div class="plan-dot" id="planDot">● Basic</div>
+        </div>
+      </div>
+    </div>
+    <nav class="sb-nav" id="sbNav"></nav>
+    <div class="sb-footer">
+      <div class="sb-av" id="sbAv">👨‍💼</div>
+      <div><div class="sb-un" id="sbUn">Admin</div><div class="sb-ur" id="sbUr">admin</div></div>
+      <button class="sb-lo" onclick="doLogout()" title="Logout">⏻</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-area">
+    <!-- Mobile topbar -->
+    <div class="mob-bar">
+      <button class="mob-btn" onclick="openSidebar()">☰</button>
+      <div class="mob-logo">Edu<span>Sync</span></div>
+      <div class="sb-school-logo" id="mobLogo" style="width:32px;height:32px;border-radius:8px;font-size:14px">🎓</div>
+    </div>
+    <!-- Desktop topbar -->
+    <div class="topbar">
+      <div class="top-ttl" id="topTitle">Dashboard</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="top-dt" id="topDate"></div>
+        <button class="top-notif" onclick="toast('3 new alerts today!','g')">🔔<div class="notif-dot"></div></button>
+      </div>
+    </div>
+    <div class="pg pg-in" id="mainPage"></div>
+  </div>
+</div>
+</div>
+
+<div id="modalRoot"></div>
+<div class="tc" id="toastRoot"></div>
+<script>
+// ════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════
+let role = 'admin', plan = 'basic'
+let schoolData = {
+  name: "St. Mary's School",
+  logo: null, // base64 or null
+  city: 'Mumbai',
+  tagline: 'Nurturing Excellence Since 1985',
+  primaryColor: '#3b82f6',
+}
+
+const PLAN_CONFIG = {
+  basic:   {label:'Basic Plan',   emoji:'⚡', color:'#3b82f6', dot:'rgba(59,130,246,.15)', dotText:'#60a5fa', price:'₹1,999/mo'},
+  pro:     {label:'Pro Plan',     emoji:'✨', color:'#8b5cf6', dot:'rgba(139,92,246,.15)', dotText:'#a78bfa', price:'₹4,499/mo'},
+  premium: {label:'Premium Plan', emoji:'💎', color:'#f59e0b', dot:'rgba(245,158,11,.15)', dotText:'#fbbf24', price:'₹7,999/mo'},
+  owner:   {label:'SaaS Owner',   emoji:'🛡️', color:'#10b981', dot:'rgba(16,185,129,.15)', dotText:'#34d399', price:'All plans'},
+}
+
+const USERS = {
+  superadmin:{name:'Arjun (Owner)', role:'superadmin', av:'🛡️'},
+  admin:     {name:'Admin User',    role:'admin',      av:'👨‍💼'},
+  teacher:   {name:'Mrs. Kavitha', role:'teacher',    av:'👨‍🏫'},
+  parent:    {name:'Rajesh Sharma', role:'parent',     av:'👨‍👩‍👦'},
+  student:   {name:'Aarav Sharma', role:'student',    av:'👦'},
+}
+
+// ════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════
+const DB = {
+  students:[
+    {id:1,name:'Aarav Sharma',  cls:'8A',roll:'001',dob:'2026-05-27',parent:'Rajesh Sharma',ph:'9876543210',att:92,marks:{math:88,sci:82,eng:91,his:76,geo:85},fees:{total:45000,paid:45000,due:0,st:'paid'},health:{height:158,weight:52,bmi:20.8,blood:'B+',allergy:'None',vision:'Normal'},bus:'Route A'},
+    {id:2,name:'Priya Patel',   cls:'8A',roll:'002',dob:'2026-06-10',parent:'Sunil Patel',  ph:'9876543211',att:97,marks:{math:95,sci:91,eng:88,his:82,geo:79},fees:{total:45000,paid:30000,due:15000,st:'partial'},health:{height:155,weight:48,bmi:19.9,blood:'O+',allergy:'Peanuts',vision:'Normal'},bus:'Route B'},
+    {id:3,name:'Rohan Gupta',   cls:'8B',roll:'003',dob:'2026-05-30',parent:'Amit Gupta',   ph:'9876543212',att:78,marks:{math:65,sci:72,eng:69,his:71,geo:68},fees:{total:45000,paid:0,due:45000,st:'unpaid'},health:{height:162,weight:65,bmi:24.8,blood:'A+',allergy:'None',vision:'Glasses'},bus:'Route A'},
+    {id:4,name:'Ananya Singh',  cls:'7A',roll:'004',dob:'2026-07-04',parent:'Vikram Singh', ph:'9876543213',att:88,marks:{math:79,sci:85,eng:92,his:88,geo:91},fees:{total:45000,paid:45000,due:0,st:'paid'},health:{height:150,weight:44,bmi:19.6,blood:'AB+',allergy:'Dust',vision:'Normal'},bus:'Route C'},
+    {id:5,name:'Kiran Mehta',   cls:'7B',roll:'005',dob:'2026-05-27',parent:'Pradeep Mehta',ph:'9876543214',att:95,marks:{math:91,sci:87,eng:94,his:85,geo:88},fees:{total:45000,paid:22500,due:22500,st:'partial'},health:{height:153,weight:46,bmi:19.7,blood:'B-',allergy:'None',vision:'Normal'},bus:'Route B'},
+    {id:6,name:'Arjun Verma',   cls:'9A',roll:'006',dob:'2026-08-15',parent:'Sanjay Verma', ph:'9876543215',att:83,marks:{math:74,sci:78,eng:71,his:69,geo:73},fees:{total:45000,paid:45000,due:0,st:'paid'},health:{height:168,weight:62,bmi:22.0,blood:'O-',allergy:'None',vision:'Normal'},bus:'Route D'},
+  ],
+  teachers:[
+    {id:1,name:'Mrs. Kavitha Rao',sub:'Mathematics',cls:'8A,8B',email:'kavitha@stmarys.edu',ph:'9876540001'},
+    {id:2,name:'Mr. Deepak Nair', sub:'Science',    cls:'7A,7B',email:'deepak@stmarys.edu', ph:'9876540002'},
+    {id:3,name:'Ms. Preethi Kumar',sub:'English',   cls:'9A,9B',email:'preethi@stmarys.edu',ph:'9876540003'},
+  ],
+  homework:[
+    {id:1,title:'Algebra Ch.5 Exercises',sub:'Mathematics',cls:'8A',due:'2026-05-29',teacher:'Mrs. Kavitha',status:'pending',ic:'📐',c:'#3b82f6'},
+    {id:2,title:'Essay on Climate Change',sub:'English',cls:'8A',due:'2026-05-31',teacher:'Ms. Preethi',status:'pending',ic:'📖',c:'#10b981'},
+    {id:3,title:'Periodic Table Quiz',sub:'Science',cls:'8B',due:'2026-05-28',teacher:'Mr. Deepak',status:'submitted',ic:'🔬',c:'#f59e0b'},
+  ],
+  announcements:[
+    {id:1,title:'Annual Sports Day — June 15',body:'All students must register for at least one event.',target:'all',date:'2026-05-25',author:'Principal',imp:true},
+    {id:2,title:'Unit Test Schedule Released',body:'Unit Test 2 from June 8–12. Detailed timetable on the portal.',target:'students',date:'2026-05-24',author:'Admin',imp:false},
+    {id:3,title:'PTM on May 30',body:'PTM on May 30, 9 AM–1 PM. All parents requested to attend.',target:'parents',date:'2026-05-23',author:'Admin',imp:true},
+  ],
+  ptm:[
+    {teacher:'Mrs. Kavitha',parent:'Rajesh Sharma',student:'Aarav',date:'2026-05-30',time:'09:00 AM',status:'confirmed',cls:'8A'},
+    {teacher:'Mr. Deepak',  parent:'Sunil Patel',  student:'Priya', date:'2026-05-30',time:'09:30 AM',status:'confirmed',cls:'8A'},
+    {teacher:'Ms. Preethi', parent:'Amit Gupta',   student:'Rohan', date:'2026-05-30',time:'10:00 AM',status:'pending',  cls:'8B'},
+  ],
+  holidays:[
+    {date:'2026-06-07',name:'Eid Al-Adha',  type:'National'},
+    {date:'2026-06-15',name:'Sports Day',   type:'School'},
+    {date:'2026-08-15',name:'Independence Day',type:'National'},
+    {date:'2026-10-20',name:'Diwali',       type:'Festival'},
+    {date:'2026-12-25',name:'Christmas',    type:'Festival'},
+  ],
+  complaints:[
+    {title:'Broken benches in 8A',body:'3 benches need repair.',by:'Rajesh Sharma',date:'2026-05-24',status:'open',pri:'high'},
+    {title:'Canteen quality',     body:'Quality has declined.',by:'Sunil Patel',  date:'2026-05-22',status:'in-progress',pri:'medium'},
+  ],
+  att:{'001':'present','002':'present','003':'absent','004':'present','005':'present','006':'late'},
+  waLogs:[
+    {type:'attendance',to:'Rajesh Sharma',msg:'Aarav marked PRESENT ✅',time:'8:35 AM'},
+    {type:'attendance',to:'Amit Gupta',   msg:'Rohan marked ABSENT ❌ — please check',time:'8:36 AM'},
+    {type:'fee',       to:'Sunil Patel',  msg:'Fee reminder: ₹15,000 due for Priya',time:'9:00 AM'},
+    {type:'homework',  to:'All 8A',       msg:'New HW: Algebra Ch.5 — due May 29',time:'11:30 AM'},
+    {type:'birthday',  to:'Rajesh Sharma',msg:'🎂 Happy Birthday Aarav! From school family',time:'7:00 AM'},
+    {type:'bus',       to:'Route A Parents',msg:'Bus Route A departed. ETA: 40 min',time:'3:05 PM'},
+  ],
+  // Premium-only data
+  buses:[
+    {route:'Route A',driver:'Ramesh Kumar',ph:'9876501001',vehicle:'MH-01-AB-1234',students:28,status:'running',eta:'8 min',stops:['School','Andheri E','Powai','Vikhroli','Ghatkopar']},
+    {route:'Route B',driver:'Suresh Patil', ph:'9876501002',vehicle:'MH-01-CD-5678',students:32,status:'running',eta:'12 min',stops:['School','Bandra','Kurla','Chembur','Govandi']},
+    {route:'Route C',driver:'Mahesh Yadav', ph:'9876501003',vehicle:'MH-01-EF-9012',students:22,status:'arrived',eta:'Arrived',stops:['School','Borivali','Malad','Goregaon']},
+    {route:'Route D',driver:'Dinesh Nair',  ph:'9876501004',vehicle:'MH-01-GH-3456',students:18,status:'en-route',eta:'25 min',stops:['School','Thane W','Kalwa','Mumbra']},
+  ],
+  faceAttLogs:[
+    {student:'Aarav Sharma', time:'7:52 AM',conf:99.2,gate:'Main Gate',status:'IN'},
+    {student:'Priya Patel',  time:'7:55 AM',conf:98.7,gate:'Main Gate',status:'IN'},
+    {student:'Kiran Mehta',  time:'7:58 AM',conf:97.9,gate:'Side Gate',status:'IN'},
+    {student:'Ananya Singh', time:'8:02 AM',conf:99.1,gate:'Main Gate',status:'IN'},
+    {student:'Arjun Verma',  time:'8:14 AM',conf:98.4,gate:'Main Gate',status:'IN'},
+    {student:'Rohan Gupta',  time:'—',      conf:0,   gate:'—',        status:'ABSENT'},
+  ],
+  library:[
+    {id:1,title:'NCERT Mathematics Class 8',type:'PDF',sub:'Mathematics',cls:'8',size:'12 MB',dl:45},
+    {id:2,title:'Science Lab Manual',       type:'PDF',sub:'Science',    cls:'8',size:'8 MB', dl:62},
+    {id:3,title:'CBSE Sample Papers 2026',  type:'PDF',sub:'All',        cls:'9,10',size:'22 MB',dl:134},
+    {id:4,title:'English Grammar Guide',    type:'PDF',sub:'English',    cls:'All',size:'5 MB',dl:88},
+    {id:5,title:'Algebra Worksheets',       type:'PDF',sub:'Mathematics',cls:'7,8',size:'3 MB',dl:76},
+  ],
+  // Owner data — all schools
+  schools:[
+    {id:1,name:"St. Mary's School",  city:'Mumbai',  plan:'premium',students:342,teachers:28,parents:310,status:'active', mrr:7999, joined:'2025-09-01',logo:'🏫',contact:'admin@stmarys.edu'},
+    {id:2,name:'Delhi Public School', city:'Delhi',   plan:'basic',  students:218,teachers:18,parents:200,status:'active', mrr:1999, joined:'2025-10-15',logo:'🎓',contact:'admin@dps.edu'},
+    {id:3,name:'Ryan International',  city:'Pune',    plan:'pro',    students:580,teachers:45,parents:540,status:'active', mrr:4499, joined:'2025-08-20',logo:'📚',contact:'admin@ryan.edu'},
+    {id:4,name:'Kendriya Vidyalaya',  city:'Bangalore',plan:'basic', students:156,teachers:14,parents:148,status:'active', mrr:1999, joined:'2025-11-01',logo:'🏛️',contact:'kv.blr@edu.in'},
+    {id:5,name:'Narayana e-Techno',   city:'Hyderabad',plan:'pro',   students:920,teachers:72,parents:890,status:'active', mrr:4499, joined:'2025-07-05',logo:'⚡',contact:'admin@narayana.edu'},
+    {id:6,name:'Podar International', city:'Mumbai',  plan:'basic',  students:124,teachers:11,parents:120,status:'trial',  mrr:0,    joined:'2026-05-01',logo:'🎯',contact:'admin@podar.edu'},
+    {id:7,name:'The Heritage School', city:'Kolkata', plan:'premium',students:290,teachers:22,parents:275,status:'active', mrr:7999, joined:'2026-01-10',logo:'🌟',contact:'admin@heritage.edu'},
+  ],
+  revenue:[
+    {m:'Oct 25',v:8000},{m:'Nov 25',v:14000},{m:'Dec 25',v:22500},
+    {m:'Jan 26',v:31000},{m:'Feb 26',v:43000},{m:'Mar 26',v:52000},
+    {m:'Apr 26',v:68000},{m:'May 26',v:83496},
+  ],
+  leaderboard:[
+    {rank:1,name:'Priya Patel',  cls:'8A',score:91,badge:'🥇',streak:18},
+    {rank:2,name:'Kiran Mehta',  cls:'7B',score:89,badge:'🥈',streak:15},
+    {rank:3,name:'Aarav Sharma', cls:'8A',score:85,badge:'🥉',streak:12},
+    {rank:4,name:'Ananya Singh', cls:'7A',score:83,badge:'⭐',streak:10},
+    {rank:5,name:'Arjun Verma',  cls:'9A',score:74,badge:'⭐',streak:7},
+    {rank:6,name:'Rohan Gupta',  cls:'8B',score:69,badge:'',  streak:3},
+  ],
+  aiLogs:[
+    {type:'Question Paper',sub:'Maths Class 8',   time:'10:22 AM',st:'done'},
+    {type:'Lesson Plan',   sub:'Science Ch.5',    time:'9:15 AM', st:'done'},
+    {type:'AI Newsletter', sub:'May 2026 Edition',time:'8:50 AM', st:'done'},
+    {type:'Progress Report',sub:'Aarav Sharma',   time:'8:30 AM', st:'done'},
+  ],
+}
+
+// ════════════════════════════════════════
+// NAV CONFIGS
+// ════════════════════════════════════════
+const NAVS = {
+  superadmin:[
+    {sec:'SaaS Overview'},{id:'dashboard',ic:'📊',lb:'Dashboard'},
+    {id:'schools',ic:'🏫',lb:'All Schools'},{id:'schoolusers',ic:'👥',lb:'Users by School'},
+    {id:'revenue',ic:'💰',lb:'Revenue & MRR'},{id:'plans',ic:'📦',lb:'Plan Management'},
+    {sec:'Tools'},{id:'support',ic:'🎫',lb:'Support Tickets'},
+  ],
+  adminBasic:[
+    {sec:'Overview'},{id:'dashboard',ic:'📊',lb:'Dashboard'},
+    {id:'students',ic:'👦',lb:'Students'},{id:'teachers',ic:'👨‍🏫',lb:'Teachers'},
+    {sec:'⚡ Features'},
+    {id:'whatsapp',ic:'💬',lb:'WhatsApp Alerts',bd:'new'},
+    {id:'fees',ic:'💰',lb:'Fee Management',bd:'new'},
+    {id:'analytics',ic:'📈',lb:'Analytics',bd:'new'},
+    {sec:'Academics'},
+    {id:'attendance',ic:'✅',lb:'Attendance'},{id:'homework',ic:'📝',lb:'Homework'},
+    {id:'marksheet',ic:'📋',lb:'Marksheet'},{id:'timetable',ic:'🗓️',lb:'Timetable'},
+    {sec:'Communication'},
+    {id:'announcements',ic:'📣',lb:'Announcements'},{id:'ptm',ic:'🤝',lb:'PTM'},
+    {id:'complaints',ic:'🎫',lb:'Complaints',bd:2},
+    {sec:'School'},
+    {id:'holidays',ic:'🏖️',lb:'Holidays'},{id:'birthdays',ic:'🎂',lb:'Birthdays'},
+    {id:'gallery',ic:'🖼️',lb:'Gallery'},{id:'idcard',ic:'🪪',lb:'ID Cards'},
+    {id:'settings',ic:'⚙️',lb:'School Settings'},
+  ],
+  adminPro:[
+    {sec:'Overview'},{id:'dashboard',ic:'📊',lb:'Dashboard'},
+    {id:'students',ic:'👦',lb:'Students'},{id:'teachers',ic:'👨‍🏫',lb:'Teachers'},
+    {sec:'🤖 AI & Pro Features'},
+    {id:'ai',ic:'🧠',lb:'AI Tools',bd:'pro'},{id:'leaderboard',ic:'🏆',lb:'Leaderboard',bd:'pro'},
+    {id:'goals',ic:'🎯',lb:'Student Goals',bd:'pro'},{id:'chat',ic:'💭',lb:'Parent-Teacher Chat',bd:'pro'},
+    {sec:'Admin'},
+    {id:'whatsapp',ic:'💬',lb:'WhatsApp Alerts'},{id:'fees',ic:'💰',lb:'Fee Management'},
+    {id:'analytics',ic:'📈',lb:'Analytics'},
+    {sec:'Academics'},
+    {id:'attendance',ic:'✅',lb:'Attendance'},{id:'homework',ic:'📝',lb:'Homework'},
+    {id:'marksheet',ic:'📋',lb:'Marksheet'},{id:'timetable',ic:'🗓️',lb:'Timetable'},
+    {sec:'School'},
+    {id:'announcements',ic:'📣',lb:'Announcements'},{id:'ptm',ic:'🤝',lb:'PTM'},
+    {id:'holidays',ic:'🏖️',lb:'Holidays'},{id:'birthdays',ic:'🎂',lb:'Birthdays'},
+    {id:'gallery',ic:'🖼️',lb:'Gallery'},{id:'idcard',ic:'🪪',lb:'ID Cards'},
+    {id:'settings',ic:'⚙️',lb:'School Settings'},
+  ],
+  adminPremium:[
+    {sec:'Overview'},{id:'dashboard',ic:'📊',lb:'Dashboard'},
+    {id:'students',ic:'👦',lb:'Students'},{id:'teachers',ic:'👨‍🏫',lb:'Teachers'},
+    {sec:'💎 Premium'},
+    {id:'faceatt',ic:'👁️',lb:'Face Rec. Attendance',bd:'new'},
+    {id:'gps',ic:'📍',lb:'Bus GPS Tracking',bd:'new'},
+    {id:'health',ic:'🏥',lb:'Health Records',bd:'new'},
+    {id:'videoptm',ic:'🎥',lb:'Video PTM',bd:'new'},
+    {id:'branding',ic:'🎨',lb:'Custom Branding',bd:'new'},
+    {id:'library',ic:'📚',lb:'Digital Library',bd:'new'},
+    {id:'multibranch',ic:'🏢',lb:'Multi-Branch',bd:'new'},
+    {sec:'🤖 AI & Pro'},
+    {id:'ai',ic:'🧠',lb:'AI Tools'},{id:'leaderboard',ic:'🏆',lb:'Leaderboard'},
+    {id:'goals',ic:'🎯',lb:'Goals'},{id:'chat',ic:'💭',lb:'Parent-Teacher Chat'},
+    {sec:'Admin'},
+    {id:'whatsapp',ic:'💬',lb:'WhatsApp Alerts'},{id:'fees',ic:'💰',lb:'Fee Management'},
+    {id:'analytics',ic:'📈',lb:'Analytics'},
+    {sec:'Academics'},
+    {id:'attendance',ic:'✅',lb:'Attendance'},{id:'homework',ic:'📝',lb:'Homework'},
+    {id:'marksheet',ic:'📋',lb:'Marksheet'},{id:'timetable',ic:'🗓️',lb:'Timetable'},
+    {sec:'School'},
+    {id:'announcements',ic:'📣',lb:'Announcements'},{id:'ptm',ic:'🤝',lb:'PTM'},
+    {id:'holidays',ic:'🏖️',lb:'Holidays'},{id:'birthdays',ic:'🎂',lb:'Birthdays'},
+    {id:'gallery',ic:'🖼️',lb:'Gallery'},{id:'idcard',ic:'🪪',lb:'ID Cards'},
+    {id:'settings',ic:'⚙️',lb:'School Settings'},
+  ],
+  teacher:[
+    {sec:'Overview'},{id:'dashboard',ic:'📊',lb:'Dashboard'},
+    {sec:'Academics'},{id:'attendance',ic:'✅',lb:'Mark Attendance'},{id:'homework',ic:'📝',lb:'Homework'},{id:'marksheet',ic:'📋',lb:'Marksheet'},
+    {sec:'Communication'},{id:'announcements',ic:'📣',lb:'Announcements'},{id:'ptm',ic:'🤝',lb:'PTM'},{id:'birthdays',ic:'🎂',lb:'Birthdays'},
+  ],
+  parent:[
+    {sec:'My Child'},{id:'dashboard',ic:'📊',lb:'Dashboard'},
+    {id:'attendance',ic:'✅',lb:'Attendance'},{id:'homework',ic:'📝',lb:'Homework'},
+    {id:'marksheet',ic:'📋',lb:'Progress Report'},{id:'fees',ic:'💰',lb:'Fees'},
+    {sec:'School'},{id:'announcements',ic:'📣',lb:'Announcements'},
+    {id:'ptm',ic:'🤝',lb:'PTM Booking'},{id:'timetable',ic:'🗓️',lb:'Timetable'},
+    {id:'holidays',ic:'🏖️',lb:'Holidays'},{id:'birthdays',ic:'🎂',lb:'Birthdays'},
+    {id:'complaints',ic:'🎫',lb:'Raise Complaint'},
+    ...(plan==='premium'?[{sec:'Premium'},{id:'gps',ic:'📍',lb:'Bus GPS Live',bd:'new'},{id:'health',ic:'🏥',lb:'Health Records',bd:'new'},{id:'library',ic:'📚',lb:'Library',bd:'new'}]:[]),
+  ],
+  student:[
+    {sec:'My School'},{id:'dashboard',ic:'📊',lb:'Dashboard'},
+    {id:'attendance',ic:'✅',lb:'Attendance'},{id:'homework',ic:'📝',lb:'Homework'},
+    {id:'marksheet',ic:'📋',lb:'My Marks'},{id:'timetable',ic:'🗓️',lb:'Timetable'},
+    {id:'leaderboard',ic:'🏆',lb:'Leaderboard'},{id:'announcements',ic:'📣',lb:'Announcements'},
+    {id:'holidays',ic:'🏖️',lb:'Holidays'},{id:'idcard',ic:'🪪',lb:'My ID Card'},
+    ...(plan==='premium'||plan==='pro'?[{id:'library',ic:'📚',lb:'Library'}]:[]),
+  ],
+}
+// ════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════
+const avg=s=>Math.round(Object.values(s.marks).reduce((a,b)=>a+b,0)/5)
+const grade=a=>a>=90?'A+':a>=80?'A':a>=70?'B+':a>=60?'B':'C'
+const bdayToday=()=>DB.students.filter(s=>{const d=new Date(s.dob),t=new Date();return d.getMonth()===t.getMonth()&&d.getDate()===t.getDate()})
+const bdg=(t,c)=>`<span class="bdg b-${c||'gr'}">${t}</span>`
+const fc=s=>s==='paid'?'em':s==='partial'?'am':'ro'
+const sc=(ic,lb,val,sub,subt,gc)=>`<div class="sc" style="--gc:${gc||'rgba(59,130,246,.05)'}"><div class="sc-ic" style="background:${gc||'rgba(59,130,246,.13)'}">${ic}</div><div class="sc-lb">${lb}</div><div class="sc-v">${val}</div>${sub?`<div class="sc-s ${subt||''}">${sub}</div>`:''}</div>`
+const pb=(v,col)=>{const c=col||(v>=80?'var(--em)':v>=60?'var(--amber)':'var(--rose)');return`<div style="display:flex;align-items:center;gap:8px"><div class="pb" style="flex:1;min-width:50px"><div class="pf" style="width:${v}%;background:${c}"></div></div><span style="font-size:12px;font-weight:600;min-width:32px;color:rgba(255,255,255,.8)">${v}%</span></div>`}
+
+function logoHTML(size='38px',radius='10px',font='17px'){
+  if(schoolData.logo){
+    return `<img src="${schoolData.logo}" style="width:${size};height:${size};border-radius:${radius};object-fit:cover">`
+  }
+  return `<span style="font-size:${font}">🎓</span>`
+}
+
+function bdayBanner(){
+  const b=bdayToday()
+  if(!b.length) return ''
+  return `<div style="border-radius:var(--r);padding:18px 22px;margin-bottom:18px;background:linear-gradient(135deg,rgba(139,92,246,.18),rgba(59,130,246,.12));border:1px solid rgba(139,92,246,.22);position:relative;overflow:hidden">
+    <div style="position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:52px;opacity:.12">🎉</div>
+    <div style="font-size:12px;font-weight:700;color:#c4b5fd;letter-spacing:.5px;margin-bottom:4px">🎂 TODAY'S BIRTHDAYS</div>
+    <div style="font-size:18px;font-weight:800;letter-spacing:-.3px">Wishing our wonderful students!</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:9px">
+      ${b.map(s=>`<div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:6px 12px"><div style="font-size:13px;font-weight:600">${s.name}</div><div style="font-size:11px;color:rgba(255,255,255,.5)">Class ${s.cls}</div></div>`).join('')}
+    </div>
+  </div>`
+}
+
+function annCard(a){
+  return `<div class="ann-card ${a.imp?'imp':''}">
+    ${a.imp?`<span style="font-size:10px;font-weight:700;background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.2);padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:8px">📌 IMPORTANT</span><br>`:''}
+    <strong style="font-size:14px">${a.title}</strong>
+    <div style="font-size:13px;color:var(--muted);line-height:1.65;margin:6px 0 9px">${a.body}</div>
+    <div style="display:flex;gap:9px;font-size:11.5px;color:var(--muted);flex-wrap:wrap">
+      <span>📅 ${a.date}</span><span>👤 ${a.author}</span>${bdg(a.target,'b-bl')}
+    </div>
+  </div>`
+}
+
+function hwCard(h){
+  return `<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:15px 17px;margin-bottom:9px;display:flex;gap:12px;align-items:flex-start">
+    <div style="width:40px;height:40px;border-radius:10px;background:${h.c}22;border:1px solid ${h.c}33;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${h.ic}</div>
+    <div style="flex:1"><div style="font-weight:600;color:rgba(255,255,255,.94);margin-bottom:4px">${h.title}</div><div style="font-size:12px;color:var(--muted)">${h.sub} · Class ${h.cls} · ${h.teacher}</div></div>
+    <div style="text-align:right;flex-shrink:0">
+      <div style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;margin-bottom:5px;background:${new Date(h.due)<=new Date(Date.now()+2*864e5)?'rgba(244,63,94,.14)':'rgba(16,185,129,.11)'};color:${new Date(h.due)<=new Date(Date.now()+2*864e5)?'#fda4af':'#6ee7b7'}">Due ${h.due}</div>
+      ${bdg(h.status,h.status==='submitted'?'b-em':'b-am')}
+    </div>
+  </div>`
+}
+
+// ════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════
+function setRole(el,r){document.querySelectorAll('.role-chip').forEach(c=>c.classList.remove('act'));el.classList.add('act');role=r}
+
+function setPlan(el,p,emoji,color){
+  document.querySelectorAll('.plan-opt').forEach(o=>o.classList.remove('active'))
+  el.classList.add('active')
+  plan=p
+  document.documentElement.style.setProperty('--plan-color',color)
+  // Update login button color
+  document.getElementById('loginBtn').style.background=`linear-gradient(135deg,${color},${color}dd)`
+  if(p==='owner') setRole(document.querySelector('.role-chip:last-child'),'superadmin')
+}
+
+function doLogin(){
+  document.getElementById('authScreen').classList.add('hidden')
+  document.getElementById('appShell').classList.remove('hidden')
+  if(role==='superadmin') plan='owner'
+  initApp()
+  const pc=PLAN_CONFIG[plan]||PLAN_CONFIG.basic
+  toast(`Welcome! ${USERS[role]?.name} — ${pc.label} Dashboard 👋`,'g')
+}
+
+function doLogout(){
+  document.getElementById('appShell').classList.add('hidden')
+  document.getElementById('authScreen').classList.remove('hidden')
+}
+
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sbOverlay').classList.add('open')}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbOverlay').classList.remove('open')}
+
+// ════════════════════════════════════════
+// APP INIT
+// ════════════════════════════════════════
+function initApp(){
+  const u=USERS[role]
+  const pc=PLAN_CONFIG[plan]||PLAN_CONFIG.basic
+
+  // Update sidebar logo
+  const sbLogoEl=document.getElementById('sbLogo')
+  const mobLogoEl=document.getElementById('mobLogo')
+  if(schoolData.logo){
+    sbLogoEl.innerHTML=`<img src="${schoolData.logo}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`
+    mobLogoEl.innerHTML=`<img src="${schoolData.logo}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`
+  } else {
+    sbLogoEl.innerHTML='🎓'
+    mobLogoEl.innerHTML='🎓'
+  }
+
+  document.getElementById('sbSchoolName').textContent=schoolData.name
+  const planDot=document.getElementById('planDot')
+  planDot.textContent=pc.emoji+' '+pc.label
+  planDot.style.background=pc.dot
+  planDot.style.color=pc.dotText
+
+  document.getElementById('sbAv').innerHTML=u.av
+  document.getElementById('sbUn').textContent=u.name
+  document.getElementById('sbUr').textContent=u.role
+  document.getElementById('topDate').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',year:'numeric',month:'short',day:'numeric'})
+  document.documentElement.style.setProperty('--plan-color',pc.color)
+
+  buildNav()
+  go('dashboard')
+}
+
+function buildNav(){
+  const nav=document.getElementById('sbNav')
+  nav.innerHTML=''
+  let items
+  if(role==='superadmin') items=NAVS.superadmin
+  else if(role==='admin'){
+    if(plan==='premium') items=NAVS.adminPremium
+    else if(plan==='pro') items=NAVS.adminPro
+    else items=NAVS.adminBasic
+  } else {
+    items=NAVS[role]||NAVS.teacher
+  }
+  items.forEach(it=>{
+    if(it.sec){nav.innerHTML+=`<div class="nav-sec">${it.sec}</div>`;return}
+    const b=it.bd==='new'?`<span class="nav-bdg nb-new">NEW</span>`:it.bd==='pro'?`<span class="nav-bdg nb-pro">PRO</span>`:it.bd==='hot'?`<span class="nav-bdg nb-hot">HOT</span>`:it.bd?`<span class="nav-bdg nb-num">${it.bd}</span>`:''
+    nav.innerHTML+=`<div class="nav-item" id="ni-${it.id}" onclick="go('${it.id}');closeSidebar()"><span class="nav-ic">${it.ic}</span><span>${it.lb}</span>${b}</div>`
+  })
+}
+
+function go(page){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('act'))
+  const el=document.getElementById(`ni-${page}`)
+  if(el) el.classList.add('act')
+  const titles={dashboard:'Dashboard',students:'Students',teachers:'Teachers',fees:'Fee Management',analytics:'Analytics Dashboard',attendance:'Attendance',homework:'Homework',marksheet:'Marksheet',timetable:'Timetable',announcements:'Announcements',ptm:'PTM',complaints:'Complaints',holidays:'Holidays',birthdays:'Birthdays',gallery:'Photo Gallery',idcard:'ID Cards',settings:'School Settings',whatsapp:'WhatsApp Alerts',ai:'AI Tools',leaderboard:'Leaderboard & Badges',goals:'Student Goals',chat:'Parent-Teacher Chat',faceatt:'Face Recognition Attendance',gps:'Bus GPS Tracking',health:'Health Records',videoptm:'Video PTM',branding:'Custom Branding',library:'Digital Library',multibranch:'Multi-Branch Management',schools:'All Schools',schoolusers:'Users by School',revenue:'Revenue & MRR',plans:'Plan Management',support:'Support Tickets'}
+  document.getElementById('topTitle').textContent=titles[page]||page
+  const PAGES={dashboard:pDash,students:pStudents,teachers:pTeachers,fees:pFees,analytics:pAnalytics,attendance:pAtt,homework:pHW,marksheet:pMS,timetable:pTT,announcements:pAnn,ptm:pPTM,complaints:pComplaints,holidays:pHolidays,birthdays:pBdays,gallery:pGallery,idcard:pIDCard,settings:pSettings,whatsapp:pWA,ai:pAI,leaderboard:pLeaderboard,goals:pGoals,chat:pChat,faceatt:pFaceAtt,gps:pGPS,health:pHealth,videoptm:pVideoPTM,branding:pBranding,library:pLibrary,multibranch:pMultiBranch,schools:pSchools,schoolusers:pSchoolUsers,revenue:pRevenue,plans:pPlans,support:pSupport}
+  const mp=document.getElementById('mainPage')
+  mp.className='pg'
+  mp.innerHTML=(PAGES[page]||pDash)()
+  void mp.offsetWidth
+  mp.classList.add('pg-in')
+}
+
+// ════════════════════════════════════════
+// DASHBOARD
+// ════════════════════════════════════════
+function pDash(){
+  if(role==='superadmin') return pOwnerDash()
+  if(role==='teacher')   return pTeacherDash()
+  if(role==='parent')    return pParentDash()
+  if(role==='student')   return pStudentDash()
+  // Admin
+  if(plan==='premium') return pAdminPremiumDash()
+  if(plan==='pro')     return pAdminProDash()
+  return pAdminBasicDash()
+}
+
+function pAdminBasicDash(){
+  const tf=DB.students.reduce((a,s)=>a+s.fees.total,0),pf=DB.students.reduce((a,s)=>a+s.fees.paid,0),pct=Math.round(pf/tf*100)
+  const atRisk=DB.students.filter(s=>s.att<80).length
+  return `${bdayBanner()}
+  <div class="wac">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><span style="font-size:11px;font-weight:700;color:var(--em);letter-spacing:.5px">💬 WHATSAPP INTEGRATION ACTIVE</span></div>
+      <div style="font-size:19px;font-weight:700;letter-spacing:-.3px">6 messages sent today · 100% delivery</div></div>
+      <button class="btn bw btn-sm" onclick="go('whatsapp')">View All Alerts →</button>
+    </div>
+  </div>
+  <div class="sg">
+    ${sc('👦','Total Students',DB.students.length,'3 active classes','','rgba(59,130,246,.07)')}
+    ${sc('💰','Fees Collected','₹'+(pf/1000).toFixed(0)+'K',pct+'% · ₹'+((tf-pf)/1000).toFixed(0)+'K due','','rgba(16,185,129,.07)')}
+    ${sc('✅','Today Attendance','89%','↑ 3% vs yesterday','up','rgba(16,185,129,.07)')}
+    ${sc('⚠️','At-Risk Students',atRisk,'Below 80% attendance','dn','rgba(244,63,94,.06)')}
+    ${sc('📝','Pending HW','3','Due this week','','rgba(245,158,11,.06)')}
+    ${sc('🤝','PTM — May 30','3 slots','Confirmed','up','rgba(20,184,166,.06)')}
+  </div>
+  <div class="two-c">
+    <div class="gc gcp">
+      <div class="gct">💰 Fee Collection Status</div>
+      <div style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:12px;color:var(--muted)">Collection Progress</span><span style="font-size:14px;font-weight:700;color:var(--em)">${pct}%</span></div>
+        <div class="pb" style="height:8px"><div class="pf" style="width:${pct}%;background:linear-gradient(90deg,var(--em),var(--teal))"></div></div>
+      </div>
+      ${DB.students.map(s=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+        <div><div style="font-size:13px;font-weight:600">${s.name}</div><div style="font-size:11px;color:var(--muted)">Class ${s.cls}</div></div>
+        <div style="text-align:right">${bdg(s.fees.st,'b-'+fc(s.fees.st))}${s.fees.due>0?`<div style="font-size:11px;color:var(--rose);margin-top:3px">₹${s.fees.due.toLocaleString()} due</div>`:''}</div>
+      </div>`).join('')}
+    </div>
+    <div>
+      <div class="gc gcp" style="margin-bottom:14px">
+        <div class="gct">📈 Quick Analytics</div>
+        <div class="g2">
+          ${[['89%','Avg Attendance','var(--blue)'],['82%','Avg Marks','var(--em)'],[atRisk,'At Risk','var(--rose)'],[pct+'%','Fee Rate','var(--amber)']].map(([v,l,c])=>`<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:14px;text-align:center"><div style="font-family:'Outfit',sans-serif;font-size:24px;font-weight:800;color:${c}">${v}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${l}</div></div>`).join('')}
+        </div>
+        <button class="btn bb btn-sm" style="width:100%;margin-top:12px" onclick="go('analytics')">Full Analytics →</button>
+      </div>
+      <div class="gc gcp">
+        <div class="gct">🚀 Upgrade to Pro</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.6">Unlock AI question papers, leaderboards, parent-teacher chat, and goal tracking.</div>
+        ${[['🧠','AI Question Papers','Save 5+ hrs per exam'],['🏆','Leaderboard & Badges','Boost engagement 40%'],['💭','Parent-Teacher Chat','Replace WhatsApp groups']].map(([ic,t,d])=>`<div style="display:flex;gap:9px;padding:8px;background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.14);border-radius:9px;margin-bottom:7px;align-items:center"><span>${ic}</span><div><div style="font-size:12.5px;font-weight:600">${t}</div><div style="font-size:11px;color:var(--muted)">${d}</div></div></div>`).join('')}
+        <button class="btn bv btn-sm" style="width:100%;margin-top:8px" onclick="toast('Contact sales@edusync.in to upgrade!','g')">Upgrade to Pro ₹4,499/mo →</button>
+      </div>
+    </div>
+  </div>`
+}
+
+function pAdminProDash(){
+  return `${bdayBanner()}
+  <div class="hero-banner" style="background:linear-gradient(135deg,rgba(139,92,246,.16),rgba(59,130,246,.1));border:1px solid rgba(139,92,246,.26);color:var(--muted)">
+    <div style="position:absolute;top:14px;right:14px;font-size:20px;opacity:.55">✨</div>
+    <div style="font-size:12px;font-weight:700;color:#c4b5fd;letter-spacing:.5px;margin-bottom:5px">PRO PLAN ACTIVE</div>
+    <div style="font-size:20px;font-weight:800;letter-spacing:-.3px;color:#fff;margin-bottom:5px">AI-Powered School Management</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.55)">Question papers · Lesson plans · Performance prediction · Gamification · Chat</div>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+      <button class="btn bv btn-sm" onclick="go('ai')">🧠 AI Tools</button>
+      <button class="btn bgh btn-sm" onclick="go('leaderboard')">🏆 Leaderboard</button>
+      <button class="btn bgh btn-sm" onclick="go('goals')">🎯 Goals</button>
+      <button class="btn bgh btn-sm" onclick="go('chat')">💭 Chat</button>
+    </div>
+  </div>
+  <div class="sg">
+    ${sc('👦','Total Students',DB.students.length,'','','rgba(59,130,246,.07)')}
+    ${sc('🤖','AI Generated','4 today','Questions & lessons','up','rgba(139,92,246,.09)')}
+    ${sc('✅','Attendance','89%','↑ 3%','up','rgba(16,185,129,.07)')}
+    ${sc('🏆','Top Scorer','Priya Patel','Score: 91% · Streak 18d','up','rgba(245,158,11,.07)')}
+    ${sc('💰','Fee Collection','72%','₹83K collected','up','rgba(16,185,129,.06)')}
+    ${sc('🎯','Goals On Track','2/3','1 needs attention','dn','rgba(244,63,94,.06)')}
+  </div>
+  <div class="two-c">
+    <div class="gc gcp">
+      <div class="gct">🤖 AI Activity Today</div>
+      ${DB.aiLogs.map(l=>`<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06)"><div style="width:34px;height:34px;border-radius:9px;background:rgba(139,92,246,.14);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">🤖</div><div style="flex:1"><div style="font-size:13px;font-weight:600">${l.type}</div><div style="font-size:11.5px;color:var(--muted)">${l.sub}</div></div><div style="text-align:right"><div style="font-size:11px;color:var(--muted)">${l.time}</div>${bdg(l.st,'b-em')}</div></div>`).join('')}
+      <button class="btn bv btn-sm" style="width:100%;margin-top:10px" onclick="go('ai')">Use AI Tools →</button>
+    </div>
+    <div>
+      <div class="gc gcp" style="margin-bottom:14px">
+        <div class="gct">🏆 Top Students</div>
+        ${DB.leaderboard.slice(0,4).map(l=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-size:18px;width:24px">${l.badge||l.rank}</div><div style="flex:1"><div style="font-size:13px;font-weight:600">${l.name}</div><div style="font-size:11px;color:var(--muted)">Class ${l.cls} · 🔥${l.streak}d</div></div><div style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:800;color:var(--amber)">${l.score}%</div></div>`).join('')}
+        <button class="btn bgh btn-sm" style="width:100%;margin-top:9px" onclick="go('leaderboard')">Full Leaderboard →</button>
+      </div>
+      <div class="gc gcp">
+        <div class="gct">💭 Recent Chats</div>
+        ${[{f:'Rajesh Sharma',m:"When is the next exam?",t:'2m ago'},{f:'Sunil Patel',m:'Thank you for the update!',t:'1h ago'}].map(c=>`<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06)"><div style="width:34px;height:34px;border-radius:50%;background:rgba(59,130,246,.18);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">👨‍👩‍👦</div><div style="flex:1"><div style="font-size:13px;font-weight:600">${c.f}</div><div style="font-size:12px;color:var(--muted)">${c.m}</div></div><div style="font-size:11px;color:var(--muted)">${c.t}</div></div>`).join('')}
+        <button class="btn bgh btn-sm" style="width:100%;margin-top:9px" onclick="go('chat')">Open Chat →</button>
+      </div>
+    </div>
+  </div>`
+}
+
+function pAdminPremiumDash(){
+  return `${bdayBanner()}
+  <div class="hero-banner" style="background:linear-gradient(135deg,rgba(245,158,11,.14),rgba(249,115,22,.08));border:1px solid rgba(245,158,11,.25)">
+    <div style="position:absolute;top:14px;right:14px;font-size:20px;opacity:.55">💎</div>
+    <div style="font-size:12px;font-weight:700;color:#fbbf24;letter-spacing:.5px;margin-bottom:5px">PREMIUM PLAN ACTIVE</div>
+    <div style="font-size:20px;font-weight:800;letter-spacing:-.3px;color:#fff;margin-bottom:5px">Face Recognition + GPS + Health + Video PTM + Branding</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.55)">The most complete school management experience. Every feature. Nothing manual.</div>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+      <button class="btn bg2 btn-sm" onclick="go('faceatt')">👁️ Face Attendance</button>
+      <button class="btn bg2 btn-sm" onclick="go('gps')">📍 Bus GPS Live</button>
+      <button class="btn bgh btn-sm" onclick="go('health')">🏥 Health</button>
+      <button class="btn bgh btn-sm" onclick="go('videoptm')">🎥 Video PTM</button>
+      <button class="btn bgh btn-sm" onclick="go('branding')">🎨 Branding</button>
+    </div>
+  </div>
+  <div class="sg">
+    ${sc('👁️','Face Att. Today','5/6','99.2% accuracy','up','rgba(251,191,36,.07)')}
+    ${sc('📍','Buses Running','3/4','Route C arrived','up','rgba(16,185,129,.07)')}
+    ${sc('🏥','Health Alerts','1','Priya — allergy noted','dn','rgba(244,63,94,.07)')}
+    ${sc('💰','Fees Collected','72%','₹83K collected','up','rgba(16,185,129,.07)')}
+    ${sc('📚','Library Resources','5','234 downloads','up','rgba(59,130,246,.07)')}
+    ${sc('🎥','Video PTMs','2/3','Scheduled May 30','','rgba(139,92,246,.07)')}
+  </div>
+  <div class="two-c">
+    <div class="gc gcp">
+      <div class="gct">👁️ Face Recognition — Today</div>
+      ${DB.faceAttLogs.slice(0,5).map(l=>`<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+        <div style="width:36px;height:36px;border-radius:50%;border:2px solid ${l.status==='IN'?'var(--em)':'var(--rose)'};display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">${l.status==='IN'?'😊':'❌'}</div>
+        <div style="flex:1"><div style="font-size:13px;font-weight:600">${l.student}</div><div style="font-size:11px;color:var(--muted)">${l.gate} · ${l.time}</div></div>
+        ${l.conf>0?bdg(l.conf+'% match','b-em'):bdg('Absent','b-ro')}
+      </div>`).join('')}
+      <button class="btn bgh btn-sm" style="width:100%;margin-top:10px" onclick="go('faceatt')">View Full Log →</button>
+    </div>
+    <div>
+      <div class="gc gcp" style="margin-bottom:14px">
+        <div class="gct">📍 Bus GPS Status</div>
+        ${DB.buses.map(b=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+          <div class="gps-dot" style="background:${b.status==='arrived'?'var(--blue)':b.status==='running'?'var(--em)':'var(--amber)'}"></div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600">${b.route}</div><div style="font-size:11px;color:var(--muted)">${b.students} students</div></div>
+          ${bdg(b.eta,b.status==='arrived'?'b-bl':b.status==='running'?'b-em':'b-am')}
+        </div>`).join('')}
+        <button class="btn bgh btn-sm" style="width:100%;margin-top:9px" onclick="go('gps')">Open GPS Map →</button>
+      </div>
+      <div class="gc gcp">
+        <div class="gct">🏥 Health Alerts</div>
+        ${DB.students.filter(s=>s.health.allergy!=='None'||s.health.vision!=='Normal').map(s=>`<div style="display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+          <span style="font-size:19px">🏥</span>
+          <div style="flex:1"><div style="font-size:12.5px;font-weight:600">${s.name}</div><div style="font-size:11px;color:var(--muted)">${s.health.allergy!=='None'?'Allergy: '+s.health.allergy:''}${s.health.vision!=='Normal'?' · Vision: '+s.health.vision:''}</div></div>
+          ${bdg('Alert','b-ro')}
+        </div>`).join('')}
+      </div>
+    </div>
+  </div>`
+}
+
+function pTeacherDash(){
+  const mine=DB.students.filter(s=>s.cls.startsWith('8'))
+  return `${bdayBanner()}
+  <div class="sg">${sc('👦','My Students',mine.length,'8A & 8B','','rgba(59,130,246,.07)')}${sc('✅','Attendance','89%','Class 8A today','up','rgba(16,185,129,.07)')}${sc('📝','HW Pending','2','Assigned by you','','rgba(245,158,11,.06)')}${sc('⚠️','At Risk',mine.filter(s=>s.att<80).length,'Below 80%','dn','rgba(244,63,94,.06)')}</div>
+  <div class="two-c">
+    <div class="gc gcp"><div class="gct">👦 My Students</div><table><thead><tr><th>Student</th><th>Attendance</th><th>Avg</th><th>Status</th></tr></thead><tbody>${mine.map(s=>{const a=avg(s);return`<tr><td><strong>${s.name}</strong></td><td>${pb(s.att)}</td><td style="font-weight:700;color:${a>=80?'var(--em)':a>=60?'var(--amber)':'var(--rose)'}">${a}%</td><td>${bdg(s.att>90?'Good':s.att>75?'Average':'At Risk',s.att>90?'b-em':s.att>75?'b-am':'b-ro')}</td></tr>`}).join('')}</tbody></table></div>
+    <div class="gc gcp"><div class="gct">💬 Quick WhatsApp</div><div class="wa-prev"><div class="wa-text">📢 Dear Parents of Class 8A,
+Attendance today: 28 Present, 4 Absent.
+— Mrs. Kavitha Rao, ${schoolData.name}</div></div>
+    <button class="btn bw" style="width:100%;margin-top:12px" onclick="toast('WhatsApp sent to all 8A parents! 📲','w')">📲 Send to All 8A Parents</button></div>
+  </div>`
+}
+
+function pParentDash(){
+  const child=DB.students[0],a=avg(child)
+  return `
+  <div style="background:linear-gradient(135deg,rgba(59,130,246,.14),rgba(139,92,246,.09));border:1px solid rgba(59,130,246,.2);border-radius:var(--r);padding:20px 22px;margin-bottom:18px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700;letter-spacing:.5px;margin-bottom:4px">MY CHILD</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:800;letter-spacing:-.5px">${child.name}</div>
+      <div style="font-size:13.5px;color:rgba(255,255,255,.55);margin-top:2px">Class ${child.cls} · Roll ${child.roll}</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      ${plan==='premium'?`<button class="btn bg2 btn-sm" onclick="go('gps')">📍 Track Bus</button>`:''}
+      <button class="btn bgh btn-sm" onclick="go('marksheet')">📊 Report Card</button>
+      <button class="btn bgh btn-sm" onclick="go('ptm')">🤝 Book PTM</button>
+    </div>
+  </div>
+  <div class="sg">${sc('✅','Attendance',child.att+'%',child.att>90?'Excellent!':'Needs improvement',child.att>90?'up':'dn','rgba(16,185,129,.07)')}${sc('📊','Avg Marks',a+'%','Grade '+grade(a),'up','rgba(59,130,246,.07)')}${sc('💰','Fee Status',child.fees.st==='paid'?'All Clear':'₹'+child.fees.due.toLocaleString()+' Due',child.fees.due>0?'Pay now':'No dues',child.fees.due>0?'dn':'up','rgba(245,158,11,.06)')}${sc('📝','HW Pending','2','Due this week','','rgba(139,92,246,.06)')}</div>
+  <div class="two-c">
+    <div class="gc gcp"><div class="gct">📊 Subject Performance</div>${Object.entries(child.marks).map(([s,m])=>`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;font-weight:600;text-transform:capitalize;color:rgba(255,255,255,.85)">${s}</span><span style="font-size:13px;font-weight:700;color:${m>=80?'var(--em)':m>=60?'var(--amber)':'var(--rose)'}">${m}/100</span></div>${pb(m)}</div>`).join('')}</div>
+    <div>
+      <div class="gc gcp" style="margin-bottom:14px"><div class="gct">💰 Fee Status</div><div class="g2">${[['₹45,000','Total','rgba(255,255,255,.8)'],['₹45,000','Paid','var(--em)'],['₹0','Due','var(--em)']].map(([v,l,c])=>`<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:12px;text-align:center"><div style="font-weight:800;font-size:15px;color:${c}">${v}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${l}</div></div>`).join('')}</div></div>
+      <div class="gc gcp"><div class="gct">💬 Recent Alerts</div>${DB.waLogs.slice(0,3).map(w=>`<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-size:12.5px;font-weight:500;color:rgba(255,255,255,.8)">${w.msg}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${w.time}</div></div>`).join('')}</div>
+    </div>
+  </div>`
+}
+
+function pStudentDash(){
+  const me=DB.students[0],a=avg(me)
+  return `${bdayBanner()}
+  <div class="sg">${sc('✅','My Attendance',me.att+'%','This term','up','rgba(16,185,129,.07)')}${sc('📊','Avg Score',a+'%','Grade '+grade(a),'up','rgba(59,130,246,.07)')}${sc('📝','HW Due','2','This week','','rgba(245,158,11,.06)')}${sc('🏆','Class Rank','#1','Top of class!','up','rgba(245,158,11,.1)')}</div>
+  <div class="two-c">
+    <div class="gc gcp"><div class="gct">📝 Pending Homework</div>${DB.homework.filter(h=>h.status==='pending').map(h=>`<div style="display:flex;gap:9px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);align-items:center"><div style="width:32px;height:32px;border-radius:7px;background:${h.c}22;display:flex;align-items:center;justify-content:center;flex-shrink:0">${h.ic}</div><div><div style="font-size:12px;font-weight:600">${h.title}</div><div style="font-size:11px;color:var(--muted)">Due ${h.due}</div></div></div>`).join('')}</div>
+    <div class="gc gcp"><div class="gct">📣 Announcements</div>${DB.announcements.slice(0,3).map(a=>`<div style="padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-size:13px;font-weight:600">${a.title}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${a.date}</div></div>`).join('')}</div>
+  </div>`
+}
+// ════════════════════════════════════════
+// OWNER DASHBOARD
+// ════════════════════════════════════════
+function pOwnerDash(){
+  const active=DB.schools.filter(s=>s.status==='active')
+  const mrr=active.reduce((a,s)=>a+s.mrr,0)
+  const totalStudents=DB.schools.reduce((a,s)=>a+s.students,0)
+  const totalTeachers=DB.schools.reduce((a,s)=>a+s.teachers,0)
+  const totalParents=DB.schools.reduce((a,s)=>a+s.parents,0)
+  return `
+  <div class="owner-hero">
+    <div style="font-size:12px;font-weight:700;color:var(--em);letter-spacing:.5px;margin-bottom:5px">🛡️ EDUSYNC OWNER DASHBOARD</div>
+    <div style="font-size:20px;font-weight:800;letter-spacing:-.3px;margin-bottom:4px">All Schools · All Users · All Revenue</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.55)">Complete visibility into every school on your platform</div>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+      <button class="btn be btn-sm" onclick="go('schools')">🏫 All Schools</button>
+      <button class="btn be btn-sm" onclick="go('schoolusers')">👥 Users by School</button>
+      <button class="btn bgh btn-sm" onclick="go('revenue')">💰 Revenue</button>
+    </div>
+  </div>
+  <div class="sg">
+    ${sc('🏫','Total Schools',DB.schools.length,active.length+' active','up','rgba(59,130,246,.07)')}
+    ${sc('👦','Total Students',totalStudents.toLocaleString(),'Across all schools','','rgba(16,185,129,.07)')}
+    ${sc('👨‍🏫','Total Teachers',totalTeachers.toLocaleString(),'Across all schools','','rgba(245,158,11,.07)')}
+    ${sc('👨‍👩‍👦','Total Parents',totalParents.toLocaleString(),'Registered','','rgba(139,92,246,.07)')}
+    ${sc('💰','Monthly Revenue','₹'+mrr.toLocaleString(),'↑ 31% vs last month','up','rgba(16,185,129,.08)')}
+    ${sc('📈','Annual Run Rate','₹'+(mrr*12/100000).toFixed(1)+'L','Projected ARR','up','rgba(59,130,246,.07)')}
+  </div>
+  <div class="two-c">
+    <div class="gc gcp">
+      <div class="gct">📈 MRR Growth</div>
+      <div style="display:flex;align-items:flex-end;gap:6px;height:88px;margin-bottom:8px">
+        ${DB.revenue.map((r,i)=>`<div style="flex:1;height:${Math.round(r.v/1100)}px;background:linear-gradient(180deg,var(--em),var(--teal));border-radius:4px 4px 0 0;opacity:${.5+i*.065};cursor:pointer;transition:.2s" title="₹${r.v.toLocaleString()}" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=${.5+i*.065}"></div>`).join('')}
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted)">${DB.revenue.map(r=>`<span>${r.m}</span>`).join('')}</div>
+    </div>
+    <div class="gc gcp">
+      <div class="gct">📦 Schools by Plan</div>
+      ${[['Basic',DB.schools.filter(s=>s.plan==='basic').length,'b-bl','var(--blue)'],
+         ['Pro',  DB.schools.filter(s=>s.plan==='pro').length,  'b-vi','var(--violet)'],
+         ['Premium',DB.schools.filter(s=>s.plan==='premium').length,'b-go','var(--amber)'],
+         ['Trial', DB.schools.filter(s=>s.status==='trial').length, 'b-gr','var(--muted)'],
+      ].map(([p,c,cl,col])=>`<div style="display:flex;align-items:center;gap:10px;margin-bottom:11px">
+        <div style="font-size:13px;flex:1">${p}</div>
+        <div style="font-weight:700;min-width:20px;text-align:right">${c}</div>
+        <div class="pb" style="width:80px"><div class="pf" style="width:${c/DB.schools.length*100}%;background:${col}"></div></div>
+        ${bdg(c+' schools',cl)}
+      </div>`).join('')}
+    </div>
+  </div>
+  <div class="gc gcp" style="margin-bottom:14px">
+    <div class="gct" style="justify-content:space-between"><span>🏫 All Schools Overview</span><button class="btn be btn-sm" onclick="go('schools')">View All →</button></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
+      ${DB.schools.map(s=>`
+      <div class="school-card" onclick="toast('Opening ${s.name} dashboard...','i')">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:11px">
+          <div class="school-logo-sm" style="background:rgba(59,130,246,.13)">${s.logo}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.name}</div>
+            <div style="font-size:11.5px;color:var(--muted)">${s.city}</div>
+          </div>
+          ${bdg(s.plan,'b-'+(s.plan==='basic'?'bl':s.plan==='pro'?'vi':'go'))}
+        </div>
+        <div style="display:flex;gap:12px;font-size:12px;color:var(--muted)">
+          <span>👦 ${s.students}</span><span>👨‍🏫 ${s.teachers}</span><span>👨‍👩‍👦 ${s.parents}</span>
+          <span style="margin-left:auto;color:var(--em);font-weight:600">₹${s.mrr.toLocaleString()}/mo</span>
+        </div>
+        <div style="margin-top:9px;display:flex;gap:6px">
+          ${bdg(s.status,s.status==='active'?'b-em':'b-am')}
+          <span style="font-size:11px;color:var(--muted);margin-left:auto">Since ${s.joined}</span>
+        </div>
+      </div>`).join('')}
+    </div>
+  </div>`
+}
+
+function pSchools(){
+  return `
+  <div class="tw">
+    <div class="tw-h">
+      <div class="tw-t">🏫 All Schools (${DB.schools.length})</div>
+      <div class="tw-a">
+        <div class="sw-i"><span class="si">🔍</span><input class="fi" style="width:185px" placeholder="Search schools..."/></div>
+        <button class="btn be btn-sm" onclick="toast('Adding new school...','i')">+ Add School</button>
+      </div>
+    </div>
+    <table>
+      <thead><tr><th>School</th><th>City</th><th>Plan</th><th>Students</th><th>Teachers</th><th>Parents</th><th>MRR</th><th>Status</th><th></th></tr></thead>
+      <tbody>${DB.schools.map(s=>`<tr>
+        <td><div style="display:flex;align-items:center;gap:9px"><div class="school-logo-sm" style="background:rgba(255,255,255,.07);font-size:17px">${s.logo}</div><div><strong>${s.name}</strong><div style="font-size:11px;color:var(--muted)">${s.contact}</div></div></div></td>
+        <td style="color:var(--muted)">${s.city}</td>
+        <td>${bdg(s.plan,'b-'+(s.plan==='basic'?'bl':s.plan==='pro'?'vi':'go'))}</td>
+        <td>${s.students}</td><td>${s.teachers}</td><td>${s.parents}</td>
+        <td style="font-weight:700;color:var(--em)">₹${s.mrr.toLocaleString()}</td>
+        <td>${bdg(s.status,s.status==='active'?'b-em':'b-am')}</td>
+        <td><div style="display:flex;gap:5px">
+          <button class="btn bgh btn-xs" onclick="toast('Opening ${s.name}...','i')">View</button>
+          <button class="btn bb btn-xs" onclick="toast('Changing plan...','i')">Plan</button>
+          <button class="btn bw btn-xs" onclick="toast('WhatsApp to admin! 📲','w')">📲</button>
+        </div></td>
+      </tr>`).join('')}</tbody>
+    </table>
+  </div>`
+}
+
+function pSchoolUsers(){
+  return `
+  <div class="sg">
+    ${sc('👦','Total Students',DB.schools.reduce((a,s)=>a+s.students,0).toLocaleString(),'','','rgba(59,130,246,.07)')}
+    ${sc('👨‍🏫','Total Teachers',DB.schools.reduce((a,s)=>a+s.teachers,0).toLocaleString(),'','','rgba(245,158,11,.07)')}
+    ${sc('👨‍👩‍👦','Total Parents',DB.schools.reduce((a,s)=>a+s.parents,0).toLocaleString(),'','','rgba(16,185,129,.07)')}
+    ${sc('👥','Total Users',DB.schools.reduce((a,s)=>a+s.students+s.teachers+s.parents,0).toLocaleString(),'','','rgba(139,92,246,.07)')}
+  </div>
+  <div class="tw">
+    <div class="tw-h"><div class="tw-t">👥 Users by School</div><button class="btn bgh btn-sm" onclick="toast('Exported!','i')">📊 Export</button></div>
+    <table>
+      <thead><tr><th>School</th><th>Plan</th><th>Students</th><th>Teachers</th><th>Parents</th><th>Total Users</th><th>MRR</th></tr></thead>
+      <tbody>${DB.schools.map(s=>{const total=s.students+s.teachers+s.parents;return`<tr>
+        <td><div style="display:flex;align-items:center;gap:9px"><div style="font-size:17px">${s.logo}</div><div><strong>${s.name}</strong><div style="font-size:11px;color:var(--muted)">${s.city}</div></div></div></td>
+        <td>${bdg(s.plan,'b-'+(s.plan==='basic'?'bl':s.plan==='pro'?'vi':'go'))}</td>
+        <td style="font-weight:600;color:var(--blue)">${s.students}</td>
+        <td style="font-weight:600;color:var(--amber)">${s.teachers}</td>
+        <td style="font-weight:600;color:var(--em)">${s.parents}</td>
+        <td><strong>${total.toLocaleString()}</strong></td>
+        <td style="color:var(--em);font-weight:600">₹${s.mrr.toLocaleString()}</td>
+      </tr>`}).join('')}</tbody>
+    </table>
+  </div>`
+}
+
+function pRevenue(){
+  const mrr=DB.schools.filter(s=>s.status==='active').reduce((a,s)=>a+s.mrr,0)
+  return `
+  <div class="sg">
+    ${sc('💰','Current MRR','₹'+mrr.toLocaleString(),'Monthly','up','rgba(16,185,129,.08)')}
+    ${sc('📈','Annual Run Rate','₹'+(mrr*12/100000).toFixed(1)+'L','Projected','up','rgba(59,130,246,.07)')}
+    ${sc('📉','Churn','1 school','₹1,999 lost','dn','rgba(244,63,94,.06)')}
+    ${sc('💎','Avg MRR/School','₹'+(mrr/DB.schools.filter(s=>s.status==='active').length).toFixed(0),'Per active school','','rgba(245,158,11,.07)')}
+  </div>
+  <div class="gc gcp" style="margin-bottom:14px">
+    <div class="gct">📈 MRR Growth</div>
+    <div style="display:flex;align-items:flex-end;gap:7px;height:110px;margin-bottom:9px">
+      ${DB.revenue.map(r=>`<div style="flex:1;height:${Math.round(r.v/900)}px;background:linear-gradient(180deg,var(--blue),var(--teal));border-radius:5px 5px 0 0;display:flex;align-items:flex-start;justify-content:center;padding-top:4px"><span style="font-size:9px;color:rgba(255,255,255,.8);font-weight:700">₹${(r.v/1000).toFixed(0)}k</span></div>`).join('')}
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted)">${DB.revenue.map(r=>`<span>${r.m}</span>`).join('')}</div>
+  </div>
+  <div class="tw">
+    <div class="tw-h"><div class="tw-t">Revenue by School</div></div>
+    <table><thead><tr><th>School</th><th>Plan</th><th>Monthly</th><th>Annual</th><th>Status</th></tr></thead>
+    <tbody>${DB.schools.sort((a,b)=>b.mrr-a.mrr).map(s=>`<tr>
+      <td><strong>${s.name}</strong> <span style="color:var(--muted);font-size:12px">${s.city}</span></td>
+      <td>${bdg(s.plan,'b-'+(s.plan==='basic'?'bl':s.plan==='pro'?'vi':'go'))}</td>
+      <td style="font-weight:700;color:var(--em)">₹${s.mrr.toLocaleString()}</td>
+      <td style="color:var(--muted)">₹${(s.mrr*12).toLocaleString()}</td>
+      <td>${bdg(s.status,s.status==='active'?'b-em':'b-am')}</td>
+    </tr>`).join('')}</tbody></table>
+  </div>`
+}
+
+function pPlans(){
+  const plans=[
+    {n:'Basic',p:1999,c:'var(--blue)',features:['WhatsApp Auto-Alerts','Fee Management + Razorpay','Analytics Dashboard','Attendance + Marksheet','Timetable, Gallery, ID Cards','Announcements, PTM, Complaints','Birthday & Holiday Management']},
+    {n:'Pro',p:4499,c:'var(--violet)',features:['All Basic +','🧠 AI Question Papers','📖 AI Lesson Plans','📊 AI Performance Predictor','🏆 Leaderboard & Badges','🎯 Student Goal Tracking','💭 Parent-Teacher Private Chat','📰 AI Newsletter Generator']},
+    {n:'Premium',p:7999,c:'var(--amber)',features:['All Pro +','👁️ Face Recognition Attendance','📍 Bus GPS Live Tracking','🏥 Student Health Records','🎥 Video PTM (Jitsi)','🎨 Custom School Branding','📚 Digital Library','🏢 Multi-Branch Management']},
+    {n:'Enterprise',p:null,c:'var(--rose)',features:['All Premium +','White-label App','Own Server Deployment','Full API Access','Custom Development','Dedicated Success Manager']},
+  ]
+  return `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:14px">
+    ${plans.map(p=>`<div class="gc gcp" style="border-top:3px solid ${p.c}">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div style="font-size:16px;font-weight:800">${p.n}</div><div style="font-weight:800;color:${p.c}">${p.p?'₹'+p.p.toLocaleString()+'/mo':'Custom'}</div></div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">${DB.schools.filter(s=>s.plan===p.n.toLowerCase()).length} active schools</div>
+      ${p.features.map(f=>`<div style="font-size:12.5px;margin-bottom:7px"><span style="color:${p.c}">✓ </span>${f}</div>`).join('')}
+      <div style="display:flex;gap:7px;margin-top:14px">
+        <button class="btn bgh btn-sm" style="flex:1" onclick="toast('Editing plan...','i')">Edit</button>
+        <button class="btn bb btn-sm" style="flex:1" onclick="toast('Link copied!','i')">Share</button>
+      </div>
+    </div>`).join('')}
+  </div>`
+}
+
+function pSupport(){
+  const tix=[
+    {school:"St. Mary's",sub:'Login issue for teachers',pri:'high',status:'open',date:'2026-05-26'},
+    {school:'DPS Delhi',sub:'Attendance report not loading',pri:'medium',status:'in-progress',date:'2026-05-25'},
+    {school:'Ryan Intl',sub:'How to bulk import students?',pri:'low',status:'resolved',date:'2026-05-24'},
+  ]
+  return `<div class="tw"><div class="tw-h"><div class="tw-t">🎫 Support Tickets</div></div>
+  <table><thead><tr><th>School</th><th>Issue</th><th>Priority</th><th>Status</th><th>Date</th><th></th></tr></thead>
+  <tbody>${tix.map(t=>`<tr><td><strong>${t.school}</strong></td><td>${t.sub}</td><td>${bdg(t.pri,t.pri==='high'?'b-ro':t.pri==='medium'?'b-am':'b-gr')}</td><td>${bdg(t.status,t.status==='resolved'?'b-em':t.status==='in-progress'?'b-am':'b-ro')}</td><td style="color:var(--muted)">${t.date}</td><td><button class="btn bb btn-xs" onclick="toast('Opening...','i')">Respond</button></td></tr>`).join('')}</tbody></table></div>`
+}
+
+// ════════════════════════════════════════
+// SCHOOL SETTINGS (Logo Upload)
+// ════════════════════════════════════════
+function pSettings(){
+  return `
+  <div class="hero-banner" style="background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(20,184,166,.08));border:1px solid rgba(59,130,246,.2)">
+    <div style="font-size:12px;font-weight:700;color:#7dd3fc;letter-spacing:.5px;margin-bottom:4px">⚙️ SCHOOL SETTINGS</div>
+    <div style="font-size:18px;font-weight:800;color:#fff">Customize your school's profile & branding</div>
+  </div>
+  <div class="two-c">
+    <div class="gc gcp">
+      <div class="gct">🏫 School Logo & Identity</div>
+      
+      <div class="logo-preview-wrap">
+        <div class="logo-preview-large" id="settingsLogoPreview">${logoHTML('72px','14px','34px')}</div>
+        <div>
+          <div style="font-size:15px;font-weight:700;margin-bottom:3px" id="settingsSchoolNamePreview">${schoolData.name}</div>
+          <div style="font-size:12px;color:var(--muted)" id="settingsTaglinePreview">${schoolData.tagline}</div>
+        </div>
+      </div>
+
+      <div class="logo-upload-zone" id="logoDropZone" onclick="document.getElementById('logoFileInput').click()"
+        ondragover="event.preventDefault();this.classList.add('drag')"
+        ondragleave="this.classList.remove('drag')"
+        ondrop="handleLogoDrop(event)">
+        <input type="file" id="logoFileInput" accept="image/*" style="display:none" onchange="handleLogoFile(this.files[0])"/>
+        <div style="font-size:32px;margin-bottom:8px">📸</div>
+        <div style="font-size:14px;font-weight:600;color:rgba(255,255,255,.7)">Upload School Logo</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px">PNG, JPG, SVG · Max 2MB · Drag & drop or click</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">Appears in sidebar, login page, ID cards, PDF reports & WhatsApp messages</div>
+      </div>
+
+      ${schoolData.logo?`<div style="display:flex;gap:9px;margin-top:12px">
+        <button class="btn be btn-sm" style="flex:1" onclick="document.getElementById('logoFileInput').click()">🔄 Change Logo</button>
+        <button class="btn br btn-sm" onclick="removeLogo()">🗑️ Remove</button>
+      </div>`:''}
+    </div>
+
+    <div>
+      <div class="gc gcp" style="margin-bottom:14px">
+        <div class="gct">📝 School Information</div>
+        <div class="fr"><label class="lb">School Name</label><input class="fi" id="sNameInput" value="${schoolData.name}" oninput="previewSchoolName(this.value)" placeholder="Enter school name"/></div>
+        <div class="fr"><label class="lb">Tagline</label><input class="fi" id="sTaglineInput" value="${schoolData.tagline}" oninput="document.getElementById('settingsTaglinePreview').textContent=this.value" placeholder="School tagline"/></div>
+        <div class="fr"><label class="lb">City</label><input class="fi" id="sCityInput" value="${schoolData.city}" placeholder="City"/></div>
+        <div class="fr"><label class="lb">Contact Email</label><input class="fi" type="email" value="admin@stmarys.edu" placeholder="admin@school.edu"/></div>
+        <button class="btn bb" style="width:100%" onclick="saveSchoolSettings()">💾 Save Changes</button>
+      </div>
+      <div class="gc gcp">
+        <div class="gct">🎨 Brand Color</div>
+        <div class="fr">
+          <label class="lb">Primary Color</label>
+          <div style="display:flex;gap:9px;align-items:center">
+            <input type="color" class="fi" value="${schoolData.primaryColor}" id="colorPicker" style="padding:3px;height:42px;cursor:pointer" oninput="updateBrandColor(this.value)"/>
+            <input class="fi" id="colorHex" value="${schoolData.primaryColor}" oninput="updateBrandColor(this.value)" placeholder="#3b82f6" style="flex:1"/>
+            <div id="colorSwatch" style="width:42px;height:42px;border-radius:9px;background:${schoolData.primaryColor};border:1px solid rgba(255,255,255,.2);flex-shrink:0"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+          ${[['#3b82f6','Blue'],['#10b981','Green'],['#8b5cf6','Violet'],['#f59e0b','Amber'],['#f43f5e','Rose'],['#14b8a6','Teal'],['#0f4c75','Navy'],['#1e3a5f','Dark Blue']].map(([c,n])=>`<div onclick="updateBrandColor('${c}')" style="width:32px;height:32px;border-radius:8px;background:${c};cursor:pointer;transition:.2s;border:2px solid ${c===schoolData.primaryColor?'#fff':'transparent'}" title="${n}"></div>`).join('')}
+        </div>
+        <div style="margin-top:12px;padding:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:9px">
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Preview in sidebar</div>
+          <div style="display:flex;align-items:center;gap:9px">
+            <div style="width:32px;height:32px;border-radius:8px;background:${schoolData.primaryColor};display:flex;align-items:center;justify-content:center;font-size:15px" id="colorPreviewMark">${schoolData.logo?`<img src="${schoolData.logo}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`: '🎓'}</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#fff">EduSync</div>
+              <div style="font-size:11px;color:${schoolData.primaryColor}" id="colorPreviewPlan">● ${PLAN_CONFIG[plan]?.label||'Basic Plan'}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`
+}
+
+function handleLogoFile(file){
+  if(!file||!file.type.startsWith('image/')) return toast('Please select an image file','e')
+  if(file.size>2*1024*1024) return toast('Image must be under 2MB','e')
+  const reader=new FileReader()
+  reader.onload=e=>{
+    schoolData.logo=e.target.result
+    updateLogoEverywhere()
+    toast('Logo uploaded! Appears across the app ✨','s')
+    go('settings')
+  }
+  reader.readAsDataURL(file)
+}
+
+function handleLogoDrop(e){
+  e.preventDefault()
+  document.getElementById('logoDropZone').classList.remove('drag')
+  const file=e.dataTransfer.files[0]
+  if(file) handleLogoFile(file)
+}
+
+function removeLogo(){
+  schoolData.logo=null
+  updateLogoEverywhere()
+  toast('Logo removed','i')
+  go('settings')
+}
+
+function updateLogoEverywhere(){
+  const sbLogoEl=document.getElementById('sbLogo')
+  const mobLogoEl=document.getElementById('mobLogo')
+  if(schoolData.logo){
+    sbLogoEl.innerHTML=`<img src="${schoolData.logo}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`
+    mobLogoEl.innerHTML=`<img src="${schoolData.logo}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`
+  } else {
+    sbLogoEl.innerHTML='🎓'
+    mobLogoEl.innerHTML='🎓'
+  }
+  // Also update auth logo mark for current session preview
+  document.getElementById('authLogoMark').innerHTML=schoolData.logo?`<img src="${schoolData.logo}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`:'🎓'
+}
+
+function previewSchoolName(v){
+  document.getElementById('settingsSchoolNamePreview').textContent=v
+  document.getElementById('sbSchoolName').textContent=v
+}
+
+function updateBrandColor(hex){
+  if(!/^#[0-9a-fA-F]{6}$/.test(hex)) return
+  schoolData.primaryColor=hex
+  document.documentElement.style.setProperty('--plan-color',hex)
+  if(document.getElementById('colorSwatch')) document.getElementById('colorSwatch').style.background=hex
+  if(document.getElementById('colorHex')) document.getElementById('colorHex').value=hex
+  if(document.getElementById('colorPicker')) document.getElementById('colorPicker').value=hex
+  if(document.getElementById('colorPreviewPlan')) document.getElementById('colorPreviewPlan').style.color=hex
+  if(document.getElementById('colorPreviewMark')) document.getElementById('colorPreviewMark').style.background=hex
+  // Update all active nav items
+  document.querySelectorAll('.nav-item.act::before').forEach(el=>el.style.background=hex)
+}
+
+function saveSchoolSettings(){
+  schoolData.name=document.getElementById('sNameInput').value||schoolData.name
+  schoolData.tagline=document.getElementById('sTaglineInput').value||schoolData.tagline
+  schoolData.city=document.getElementById('sCityInput').value||schoolData.city
+  document.getElementById('sbSchoolName').textContent=schoolData.name
+  toast('Settings saved! Your branding is live across the app 🎨','s')
+}
+
+// ════════════════════════════════════════
+// SHARED PAGES
+// ════════════════════════════════════════
+function pStudents(){
+  return `<div class="tw"><div class="tw-h"><div class="tw-t">👦 Students (${DB.students.length})</div><div class="tw-a"><div class="sw-i"><span class="si">🔍</span><input class="fi" style="width:185px" placeholder="Search students..."/></div><button class="btn bb btn-sm" onclick="toast('Add student dialog...','i')">+ Add Student</button></div></div>
+  <table><thead><tr><th>Student</th><th>Class</th><th>Parent</th><th>Attendance</th><th>Avg Marks</th><th>Fees</th><th></th></tr></thead>
+  <tbody>${DB.students.map(s=>{const a=avg(s);return`<tr><td><strong>${s.name}</strong></td><td>${bdg(s.cls,'b-bl')}</td><td><div style="font-size:13px">${s.parent}</div><div style="font-size:11px;color:var(--muted)">${s.ph}</div></td><td>${pb(s.att)}</td><td style="font-weight:700;color:${a>=80?'var(--em)':a>=60?'var(--amber)':'var(--rose)'}">${a}%</td><td>${bdg(s.fees.st,'b-'+fc(s.fees.st))}</td><td><div style="display:flex;gap:5px"><button class="btn bgh btn-xs" onclick="toast('Opening profile...','i')">View</button><button class="btn bw btn-xs" onclick="toast('WhatsApp to ${s.parent}!','w')">📲</button></div></td></tr>`}).join('')}</tbody></table></div>`
+}
+
+function pTeachers(){
+  return `<div class="tw"><div class="tw-h"><div class="tw-t">👨‍🏫 Teachers</div><button class="btn bb btn-sm" onclick="toast('Add teacher...','i')">+ Add</button></div>
+  <table><thead><tr><th>Name</th><th>Subject</th><th>Classes</th><th>Email</th><th>Phone</th><th></th></tr></thead>
+  <tbody>${DB.teachers.map(t=>`<tr><td><strong>${t.name}</strong></td><td>${bdg(t.sub,'b-bl')}</td><td>${t.cls}</td><td style="font-size:12px;color:var(--muted)">${t.email}</td><td style="font-size:12px;color:var(--muted)">${t.ph}</td><td><button class="btn bw btn-xs" onclick="toast('WhatsApp to ${t.name}!','w')">📲</button></td></tr>`).join('')}</tbody></table></div>`
+}
+
+function pFees(){
+  const tf=DB.students.reduce((a,s)=>a+s.fees.total,0),pf=DB.students.reduce((a,s)=>a+s.fees.paid,0),pct=Math.round(pf/tf*100)
+  if(role==='parent'){return`<div class="gc gcp"><div class="gct">💰 Fee Summary</div><div class="g3">${[['₹45,000','Total','rgba(255,255,255,.8)'],['₹45,000','Paid','var(--em)'],['₹0','Due','var(--em)']].map(([v,l,c])=>`<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:13px;text-align:center"><div style="font-weight:800;font-size:16px;color:${c}">${v}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${l}</div></div>`).join('')}</div></div>`}
+  return `<div style="background:linear-gradient(135deg,rgba(16,185,129,.11),rgba(6,182,212,.07));border:1px solid rgba(16,185,129,.17);border-radius:var(--r);padding:20px 22px;margin-bottom:16px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:13px">
+      ${[['₹'+(tf/1000).toFixed(0)+'K','Expected'],['₹'+(pf/1000).toFixed(0)+'K','Collected'],['₹'+((tf-pf)/1000).toFixed(0)+'K','Pending'],[pct+'%','Rate']].map(([v,l])=>`<div style="background:rgba(255,255,255,.1);padding:12px;border-radius:10px;text-align:center"><div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:800">${v}</div><div style="font-size:11px;color:rgba(255,255,255,.55);margin-top:2px">${l}</div></div>`).join('')}
+    </div>
+    <div style="background:rgba(255,255,255,.14);border-radius:20px;height:7px;overflow:hidden"><div style="width:${pct}%;height:100%;background:linear-gradient(90deg,#25d366,var(--teal));border-radius:20px"></div></div>
+  </div>
+  <div style="display:flex;gap:9px;margin-bottom:13px;flex-wrap:wrap">
+    <button class="btn bb" onclick="toast('Adding fee structure...','i')">+ Add Structure</button>
+    <button class="btn bw" onclick="toast('Fee reminders sent! 📲','w')">📲 Send Reminders</button>
+    <button class="btn bgh" onclick="toast('Exported!','s')">📊 Export</button>
+  </div>
+  <div class="tw"><table><thead><tr><th>Student</th><th>Class</th><th>Total</th><th>Paid</th><th>Due</th><th>Status</th><th>Actions</th></tr></thead>
+  <tbody>${DB.students.map(s=>`<tr><td><strong>${s.name}</strong></td><td>${s.cls}</td><td>₹${s.fees.total.toLocaleString()}</td><td style="color:var(--em);font-weight:600">₹${s.fees.paid.toLocaleString()}</td><td style="color:${s.fees.due>0?'var(--rose)':'var(--em)'};font-weight:600">₹${s.fees.due.toLocaleString()}</td><td>${bdg(s.fees.st,'b-'+fc(s.fees.st))}</td><td><div style="display:flex;gap:5px"><button class="btn bgh btn-xs" onclick="toast('Receipt!','s')">📄</button>${s.fees.due>0?`<button class="btn bw btn-xs" onclick="toast('Reminder sent!','w')">📲</button>`:''}</div></td></tr>`).join('')}</tbody></table></div>`
+}
+
+function pAnalytics(){
+  const aR=DB.students.filter(s=>s.att<80),avgM=Math.round(DB.students.reduce((a,s)=>a+avg(s),0)/DB.students.length),avgA=Math.round(DB.students.reduce((a,s)=>a+s.att,0)/DB.students.length)
+  return `<div class="sg">${sc('📊','Avg Attendance',avgA+'%','School-wide','up','rgba(59,130,246,.07)')}${sc('📋','Avg Marks',avgM+'%','All subjects','up','rgba(16,185,129,.07)')}${sc('⚠️','At-Risk',aR.length,'Below 80%','dn','rgba(244,63,94,.07)')}${sc('📝','HW Completion','75%','','','rgba(245,158,11,.06)')}</div>
+  ${aR.length?`<div style="padding:12px 15px;border-radius:9px;font-size:13px;display:flex;align-items:center;gap:9px;margin-bottom:12px;background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.18);color:#fda4af">⚠️ <strong>At-Risk:</strong> ${aR.map(s=>s.name).join(', ')} <button class="btn br btn-xs" style="margin-left:auto" onclick="toast('Alerts sent! 📲','w')">📲 Alert Parents</button></div>`:''}
+  <div class="two-c"><div class="gc gcp"><div class="gct">👦 Performance Overview</div><table><thead><tr><th>Student</th><th>Attendance</th><th>Avg</th><th>Risk</th></tr></thead><tbody>${DB.students.map(s=>{const a=avg(s);return`<tr><td><strong>${s.name}</strong></td><td>${pb(s.att)}</td><td style="font-weight:700;color:${a>=80?'var(--em)':a>=60?'var(--amber)':'var(--rose)'}">${a}%</td><td>${bdg(s.att<80||a<60?'Risk':'Good',s.att<80||a<60?'b-ro':'b-em')}</td></tr>`}).join('')}</tbody></table></div>
+  <div class="gc gcp"><div class="gct">📅 Attendance Trend</div><div style="display:flex;align-items:flex-end;gap:5px;height:68px;margin-bottom:8px">${[82,85,88,84,91,89,87,92,89].map(v=>`<div style="flex:1;height:${v}%;background:${v>=90?'var(--em)':'var(--blue)'};border-radius:4px 4px 0 0;opacity:.75"></div>`).join('')}</div><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted)">${['Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May'].map(m=>`<span>${m}</span>`).join('')}</div></div></div>`
+}
+
+function pAtt(){
+  if(role==='parent'||role==='student'){
+    const child=DB.students[0],today=new Date(),y=today.getFullYear(),m=today.getMonth(),fd=new Date(y,m,1).getDay(),dm=new Date(y,m+1,0).getDate()
+    return `<div class="two-c" style="margin-bottom:14px"><div class="gc gcp" style="text-align:center"><div style="font-family:'Outfit',sans-serif;font-size:34px;font-weight:800;color:var(--em)">${child.att}%</div><div style="font-size:12px;color:var(--muted);margin-top:2px">Overall Attendance</div></div><div class="gc gcp" style="text-align:center"><div style="font-family:'Outfit',sans-serif;font-size:34px;font-weight:800;color:var(--rose)">3</div><div style="font-size:12px;color:var(--muted);margin-top:2px">Absent This Month</div></div></div>
+    <div class="gc gcp"><div style="background:rgba(255,255,255,.04);border-radius:var(--r);padding:16px;"><div class="cg" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>`<div style="text-align:center;font-size:10px;font-weight:700;color:var(--muted);padding:5px 0">${d}</div>`).join('')}${Array.from({length:fd}).map(()=>`<div></div>`).join('')}${Array.from({length:dm}).map((_,i)=>{const d=i+1,isT=d===today.getDate();return`<div style="aspect-ratio:1;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;background:${isT?'var(--blue)':'transparent'};color:${isT?'#fff':'rgba(255,255,255,.55)'}">${d}</div>`}).join('')}</div></div></div>`
+  }
+  const cls=DB.students.filter(s=>s.cls==='8A')
+  const p=Object.values(DB.att).filter(v=>v==='present').length
+  const ab=Object.values(DB.att).filter(v=>v==='absent').length
+  const l=Object.values(DB.att).filter(v=>v==='late').length
+  return `<div style="display:flex;gap:9px;margin-bottom:14px;flex-wrap:wrap"><select class="fi fi-s" style="width:auto"><option>Class 8A</option><option>8B</option></select><input type="date" class="fi" style="width:auto" value="2026-05-27"/><button class="btn be btn-sm" onclick="toast('Saved! Alerts sent 📲','w')">💾 Save & Alert</button></div>
+  <div class="thr-c" style="margin-bottom:14px">${[[p,'Present','var(--em)'],[ab,'Absent','var(--rose)'],[l,'Late','var(--amber)']].map(([v,l2,c])=>`<div class="gc gcp" style="text-align:center;padding:14px"><div style="font-family:'Outfit',sans-serif;font-size:28px;font-weight:800;color:${c}">${v}</div><div style="font-size:12px;color:var(--muted);margin-top:2px">${l2}</div></div>`).join('')}</div>
+  <div class="ag">${cls.map(s=>`<div class="ac"><div><div class="an">${s.name}</div><div class="ar">Roll: ${s.roll}</div></div><div class="abtns"><div class="abtn ${DB.att[s.roll]==='present'?'present':''}" onclick="DB.att['${s.roll}']='present';this.closest('.ac').querySelectorAll('.abtn').forEach(b=>b.className='abtn');this.className='abtn present'">P</div><div class="abtn ${DB.att[s.roll]==='absent'?'absent':''}" onclick="DB.att['${s.roll}']='absent';this.closest('.ac').querySelectorAll('.abtn').forEach(b=>b.className='abtn');this.className='abtn absent'">A</div><div class="abtn ${DB.att[s.roll]==='late'?'late':''}" onclick="DB.att['${s.roll}']='late';this.closest('.ac').querySelectorAll('.abtn').forEach(b=>b.className='abtn');this.className='abtn late'">L</div></div></div>`).join('')}</div>`
+}
+
+function pHW(){
+  const canAdd=role==='admin'||role==='teacher'
+  return `${canAdd?`<div style="display:flex;justify-content:flex-end;margin-bottom:13px"><button class="btn bb" onclick="toast('Assigned! WhatsApp sent 📲','w')">+ Assign Homework</button></div>`:''}
+  ${DB.homework.map(h=>hwCard(h)).join('')}`
+}
+
+function pMS(){
+  if(role==='parent'||role==='student'){
+    const s=DB.students[0],a=avg(s)
+    return `<div style="display:flex;justify-content:flex-end;margin-bottom:13px"><button class="btn bb" onclick="toast('Downloaded!','s')">⬇️ Download PDF</button></div>
+    <div class="gc gcp"><div style="text-align:center;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:18px"><div style="font-family:'Outfit',sans-serif;font-size:19px;font-weight:800">${schoolData.name.toUpperCase()}</div><div style="font-size:12px;color:var(--muted);margin-top:3px">Progress Report — Term 1 (2025–26)</div></div>
+    <div class="g2" style="margin-bottom:16px">${[['Student',s.name],['Class',s.cls],['Roll',s.roll],['Attendance',s.att+'%']].map(([k,v])=>`<div><div style="font-size:10.5px;color:var(--muted);font-weight:700">${k.toUpperCase()}</div><div style="font-weight:700;margin-top:3px">${v}</div></div>`).join('')}</div>
+    <table><thead><tr><th>Subject</th><th>Marks</th><th>Max</th><th>Grade</th></tr></thead><tbody>${Object.entries(s.marks).map(([sub,m])=>`<tr><td style="text-transform:capitalize;font-weight:600">${sub}</td><td style="font-weight:700">${m}</td><td style="color:var(--muted)">100</td><td>${bdg(grade(m),'b-'+(m>=80?'em':m>=60?'am':'ro'))}</td></tr>`).join('')}</tbody></table>
+    <div class="thr-c" style="margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);text-align:center">${[[Object.values(s.marks).reduce((a,b)=>a+b,0),'Total'],[a+'%','Percentage'],[grade(a),'Grade']].map(([v,l])=>`<div><div style="font-family:'Outfit',sans-serif;font-size:24px;font-weight:800;color:var(--blue)">${v}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${l}</div></div>`).join('')}</div></div>`
+  }
+  return `<div style="display:flex;gap:9px;margin-bottom:13px;flex-wrap:wrap"><select class="fi fi-s" style="width:auto"><option>Class 8A</option><option>8B</option></select><button class="btn bb btn-sm" onclick="toast('Entering marks...','i')">+ Enter Marks</button></div>
+  <div class="tw"><table><thead><tr><th>Student</th><th>Math</th><th>Sci</th><th>Eng</th><th>His</th><th>Geo</th><th>Avg</th><th>Grade</th></tr></thead>
+  <tbody>${DB.students.map(s=>{const a=avg(s);return`<tr><td><strong>${s.name}</strong></td>${Object.values(s.marks).map(m=>`<td style="font-weight:600;color:${m>=80?'var(--em)':m>=60?'var(--amber)':'var(--rose)'}">${m}</td>`).join('')}<td><strong>${a}%</strong></td><td>${bdg(grade(a),'b-em')}</td></tr>`}).join('')}</tbody></table></div>`
+}
+
+function pTT(){
+  const tt={'Mon':['Mathematics','English','Science','BREAK','History','Geography','Art'],'Tue':['Science','Mathematics','English','BREAK','Geography','History','PT'],'Wed':['English','Science','Mathematics','BREAK','Art','PT','Mathematics']}
+  const cols={'Mathematics':'rgba(59,130,246,.2)','English':'rgba(16,185,129,.2)','Science':'rgba(245,158,11,.2)','History':'rgba(139,92,246,.2)','Geography':'rgba(20,184,166,.2)','Art':'rgba(244,63,94,.15)','PT':'rgba(251,191,36,.2)','BREAK':'rgba(255,255,255,.06)'}
+  const tc={'Mathematics':'#60a5fa','English':'#6ee7b7','Science':'#fcd34d','History':'#c4b5fd','Geography':'#2dd4bf','Art':'#fda4af','PT':'#fef08a','BREAK':'rgba(255,255,255,.3)'}
+  return `<div class="gc gcp"><div class="gct">🗓️ Weekly Timetable — Class 8A</div><div style="overflow-x:auto"><table style="min-width:640px"><thead><tr><th>Day</th><th>8:00–9:00</th><th>9:00–10:00</th><th>10:00–11:00</th><th>Break</th><th>11:30–12:30</th><th>12:30–1:30</th><th>1:30–2:30</th></tr></thead><tbody>${Object.entries(tt).map(([day,periods])=>`<tr><td><strong>${day}</strong></td>${periods.map(p=>`<td><div style="background:${cols[p]||'rgba(255,255,255,.04)'};color:${tc[p]||'rgba(255,255,255,.4)'};padding:5px 9px;border-radius:6px;font-size:11.5px;font-weight:600;white-space:nowrap;text-align:center">${p}</div></td>`).join('')}</tr>`).join('')}</tbody></table></div></div>`
+}
+
+function pAnn(){
+  const canPost=role==='admin'||role==='teacher'||role==='superadmin'
+  return `${canPost?`<div style="display:flex;justify-content:flex-end;margin-bottom:13px;gap:8px"><button class="btn bw btn-sm" onclick="toast('Broadcasting via WhatsApp...','w')">📲 WhatsApp</button><button class="btn bb btn-sm" onclick="toast('Announcement posted!','s')">+ New</button></div>`:''}
+  ${DB.announcements.map(a=>annCard(a)).join('')}`
+}
+
+function pPTM(){
+  const canS=role==='admin',canB=role==='parent'
+  return `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;flex-wrap:wrap;gap:9px">
+    <div><div style="font-size:17px;font-weight:700;letter-spacing:-.3px">📅 May 30, 2026 — PTM Day</div><div style="font-size:12.5px;color:var(--muted);margin-top:2px">9:00 AM – 1:00 PM · School Hall</div></div>
+    ${canS?`<button class="btn bb" onclick="toast('PTM scheduled! Notifications sent 📲','w')">+ Schedule PTM</button>`:''}
+    ${canB?`<button class="btn bb" onclick="toast('Slot booked! Confirmation sent 📲','w')">📅 Book My Slot</button>`:''}
+  </div>
+  <div class="thr-c" style="margin-bottom:14px">${[[DB.ptm.filter(p=>p.status==='confirmed').length,'Confirmed','var(--em)'],[DB.ptm.filter(p=>p.status==='pending').length,'Pending','var(--amber)'],[DB.ptm.length,'Total Slots','var(--blue)']].map(([v,l,c])=>`<div class="gc gcp" style="text-align:center;padding:14px"><div style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:800;color:${c}">${v}</div><div style="font-size:12px;color:var(--muted);margin-top:2px">${l}</div></div>`).join('')}</div>
+  ${DB.ptm.map(p=>`<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:15px 17px;margin-bottom:8px;display:flex;align-items:center;gap:13px"><div style="text-align:center;min-width:44px"><div style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;color:var(--blue);line-height:1">30</div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted)">May</div></div><div style="flex:1"><div style="font-weight:600;color:rgba(255,255,255,.94)">👨‍👩‍👦 ${p.parent} → 👨‍🏫 ${p.teacher}</div><div style="font-size:12px;color:var(--muted);margin-top:3px">Re: ${p.student} · Class ${p.cls}</div></div><div style="text-align:right"><div style="font-weight:700;color:var(--blue);margin-bottom:4px">${p.time}</div>${bdg(p.status,p.status==='confirmed'?'b-em':'b-am')}</div></div>`).join('')}`
+}
+
+function pComplaints(){
+  const list=role==='parent'?DB.complaints.filter(c=>c.by==='Rajesh Sharma'):DB.complaints
+  return `<div style="display:flex;justify-content:flex-end;margin-bottom:13px">${role==='parent'?`<button class="btn bb" onclick="toast('Raising complaint...','i')">🎫 Raise Complaint</button>`:''}</div>
+  ${list.map(c=>`<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:15px 17px;margin-bottom:8px"><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:9px;margin-bottom:7px"><div style="font-weight:700;color:rgba(255,255,255,.94)">${c.title}</div><div style="display:flex;gap:6px;flex-shrink:0">${bdg(c.pri,c.pri==='high'?'b-ro':c.pri==='medium'?'b-am':'b-gr')}${bdg(c.status,c.status==='resolved'?'b-em':c.status==='in-progress'?'b-am':'b-ro')}</div></div><div style="font-size:12.5px;color:var(--muted);margin-bottom:9px;line-height:1.6">${c.body}</div><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:7px"><div style="font-size:11.5px;color:var(--muted)">By ${c.by} · ${c.date}</div>${role==='admin'&&c.status!=='resolved'?`<button class="btn be btn-xs" onclick="toast('Resolved!','s')">✓ Resolve</button>`:''}</div></div>`).join('')}`
+}
+
+function pHolidays(){
+  return `${role==='admin'?`<div style="display:flex;justify-content:flex-end;margin-bottom:13px;gap:8px"><button class="btn bb btn-sm" onclick="toast('Added!','s')">+ Add Holiday</button></div>`:''}
+  <div class="tw"><table><thead><tr><th>Holiday</th><th>Date</th><th>Day</th><th>Type</th></tr></thead><tbody>${DB.holidays.map(h=>`<tr style="opacity:${new Date(h.date)<new Date()?.45:1}"><td><strong>${h.name}</strong></td><td>${h.date}</td><td>${new Date(h.date).toLocaleString('default',{weekday:'long'})}</td><td>${bdg(h.type,h.type==='National'?'b-bl':h.type==='Festival'?'b-am':'b-em')}</td></tr>`).join('')}</tbody></table></div>`
+}
+
+function pBdays(){
+  const today=new Date()
+  return `${DB.students.filter(s=>{const d=new Date(s.dob);return d.getMonth()===today.getMonth()&&d.getDate()===today.getDate()}).length?`<div style="border-radius:var(--r);padding:18px 22px;margin-bottom:18px;background:linear-gradient(135deg,rgba(139,92,246,.17),rgba(59,130,246,.11));border:1px solid rgba(139,92,246,.22)"><div style="font-size:12px;font-weight:700;color:#c4b5fd;letter-spacing:.5px;margin-bottom:4px">🎂 BIRTHDAY TODAY!</div><div style="font-size:18px;font-weight:800;color:#fff">Wishing our students a wonderful day!</div></div>`:'' }
+  <div class="tw"><div class="tw-h"><div class="tw-t">🎂 Student Birthdays</div></div>
+  <table><thead><tr><th>Student</th><th>Class</th><th>Birthday</th><th>Days Away</th><th>Actions</th></tr></thead>
+  <tbody>${DB.students.sort((a,b)=>new Date(a.dob)-new Date(b.dob)).map(s=>{const d=new Date(s.dob),next=new Date(today.getFullYear(),d.getMonth(),d.getDate());if(next<today)next.setFullYear(today.getFullYear()+1);const days=Math.ceil((next-today)/864e5);return`<tr><td><strong>${s.name}</strong></td><td>${s.cls}</td><td>${d.toLocaleDateString('en-IN',{day:'numeric',month:'long'})}</td><td>${bdg(days===0?'Today!':days+' days',days===0?'b-go':days<=7?'b-bl':'b-gr')}</td><td><div style="display:flex;gap:6px"><button class="btn ba btn-xs" onclick="toast('Wish sent! 🎂','s')">🎉</button><button class="btn bw btn-xs" onclick="toast('WhatsApp sent! 📲','w')">📲</button></div></td></tr>`}).join('')}</tbody></table></div>`
+}
+
+function pGallery(){
+  const events=[['Sports Day 2025','⚽',22],['Annual Day 2025','🎭',45],['Science Fair','🔬',18],['Republic Day','🇮🇳',34],["Teachers' Day",'👩‍🏫',29],['Diwali Celebration','🪔',41]]
+  return `<div style="display:flex;justify-content:flex-end;margin-bottom:13px;gap:8px">${role==='admin'?`<button class="btn bgh btn-sm" onclick="toast('New album!','s')">+ Album</button><button class="btn bb btn-sm" onclick="toast('Upload...','i')">📤 Upload</button>`:''}</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:13px">${events.map(([name,ic,count])=>`<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .22s" onclick="toast('Opening ${name}...','i')" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''"><div style="height:108px;display:flex;align-items:center;justify-content:center;font-size:46px;background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(139,92,246,.07))">${ic}</div><div style="padding:13px"><div style="font-weight:700;font-size:13px;margin-bottom:2px">${name}</div><div style="font-size:11.5px;color:var(--muted)">${count} photos</div></div></div>`).join('')}</div>`
+}
+
+function pIDCard(){
+  const students=role==='student'?[DB.students[0]]:DB.students
+  return `${role==='admin'?`<div style="display:flex;justify-content:flex-end;margin-bottom:14px;gap:8px"><button class="btn bb" onclick="toast('Generating all...','s')">🪪 Generate All</button></div>`:''}
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:16px">
+    ${students.map(s=>`<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.11);border-radius:16px;overflow:hidden;box-shadow:var(--sh)">
+      <div style="padding:18px;background:linear-gradient(135deg,${schoolData.primaryColor},${schoolData.primaryColor}aa)">
+        <div style="display:flex;align-items:center;gap:13px">
+          <div style="width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:26px;border:3px solid rgba(255,255,255,.45)">👦</div>
+          <div><div style="font-size:16px;font-weight:800">${s.name}</div><div style="font-size:12.5px;opacity:.8">Class ${s.cls} · Roll ${s.roll}</div><div style="font-size:11px;opacity:.65;margin-top:2px">${schoolData.name}</div></div>
+          <div style="margin-left:auto;width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:18px">${logoHTML('36px','8px','18px')}</div>
+        </div>
+      </div>
+      <div style="padding:15px 18px">${[['👨‍👩‍👦','Parent',s.parent],['📱','Contact',s.ph],['🚌','Bus',s.bus||'Route A']].map(([ic,l,v])=>`<div style="display:flex;gap:9px;align-items:center;margin-bottom:7px"><span>${ic}</span><div><div style="font-size:10px;color:var(--muted);font-weight:600">${l}</div><div style="font-size:12.5px;font-weight:500">${v}</div></div></div>`).join('')}
+      <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:7px;text-align:center;font-family:'Outfit',monospace;font-size:12.5px;letter-spacing:2px;color:rgba(255,255,255,.65);margin-top:4px">EDU-${s.roll}-2526</div>
+      <button class="btn bb" style="width:100%;margin-top:11px" onclick="toast('ID Card downloaded!','s')">⬇️ Download PDF</button>
+      </div>
+    </div>`).join('')}
+  </div>`
+}
+
+function pWA(){
+  return `<div class="wac"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px"><div><div style="font-size:11px;font-weight:700;color:var(--em);letter-spacing:.5px;margin-bottom:3px">💬 WHATSAPP ACTIVE (via Baileys — Free)</div><div style="font-size:18px;font-weight:700">6 sent today · 100% delivery · ₹0 cost</div></div></div></div>
+  <div class="gc gcp" style="margin-bottom:14px"><div class="gct">⚡ Auto-Send Rules</div>
+  <div style="display:flex;flex-direction:column;gap:8px">${[['✅','Attendance Alert','Auto when marked absent/late'],['💰','Fee Reminder','7 days before + on due date'],['📝','Homework Alert','When new homework assigned'],['🎂','Birthday Wish','At 7:00 AM on birthday'],['🤝','PTM Reminder','24 hours before meeting'],['⚠️','Low Attendance','Below 75%'],['📍','Bus Alert','5 min before reaching stop (Premium)']].map(([ic,t,d])=>`<div style="display:flex;align-items:center;gap:11px;padding:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px"><div style="font-size:19px">${ic}</div><div style="flex:1"><div style="font-size:13px;font-weight:600">${t}</div><div style="font-size:12px;color:var(--muted)">${d}</div></div>${bdg('Active','b-em')}</div>`).join('')}</div></div>
+  <div class="tw"><div class="tw-h"><div class="tw-t">📋 Today's Log</div></div>
+  <table><thead><tr><th>Type</th><th>To</th><th>Message</th><th>Time</th><th>Status</th></tr></thead>
+  <tbody>${DB.waLogs.map(w=>`<tr><td>${bdg(w.type,'b-'+{'attendance':'em','fee':'am','homework':'bl','birthday':'vi','bus':'te'}[w.type]||'gr')}</td><td><strong>${w.to}</strong></td><td style="font-size:12.5px;max-width:220px">${w.msg}</td><td style="color:var(--muted)">${w.time}</td><td>${bdg('✓ Delivered','b-em')}</td></tr>`).join('')}</tbody></table></div>`
+}
+
+// ════════════════════════════════════════
+// PRO PAGES
+// ════════════════════════════════════════
+function pAI(){
+  const tools=[{ic:'📄',t:'Question Paper Generator',d:'By subject, class & difficulty. PDF in seconds.',c:'rgba(59,130,246,.12)',b:'rgba(59,130,246,.24)'},{ic:'📖',t:'Lesson Plan Creator',d:'45-min plans with objectives & activities.',c:'rgba(16,185,129,.09)',b:'rgba(16,185,129,.2)'},{ic:'📊',t:'Performance Predictor',d:'Identifies at-risk students before exams.',c:'rgba(20,184,166,.09)',b:'rgba(20,184,166,.2)'},{ic:'🏆',t:'Leaderboard & Gamification',d:'Auto-rank students, award badges & streaks.',c:'rgba(245,158,11,.09)',b:'rgba(245,158,11,.2)'},{ic:'📰',t:'AI Newsletter Generator',d:'Monthly school newsletter written by AI.',c:'rgba(249,115,22,.09)',b:'rgba(249,115,22,.2)'},{ic:'🎨',t:'Activity Ideas Generator',d:'Art & craft ideas with materials & steps.',c:'rgba(236,72,153,.09)',b:'rgba(236,72,153,.2)'},{ic:'📋',t:'Project Brief Creator',d:'Project briefs with rubrics & timelines.',c:'rgba(139,92,246,.11)',b:'rgba(139,92,246,.24)'},{ic:'📈',t:'Progress Report AI',d:'Parent-friendly summaries from marks & notes.',c:'rgba(6,182,212,.09)',b:'rgba(6,182,212,.2)'}]
+  return `<div class="hero-banner" style="background:linear-gradient(135deg,rgba(139,92,246,.16),rgba(59,130,246,.1));border:1px solid rgba(139,92,246,.26);margin-bottom:20px"><div style="font-size:12px;font-weight:700;color:#c4b5fd;letter-spacing:.5px;margin-bottom:5px">🧠 AI TOOLS</div><div style="font-size:20px;font-weight:800;color:#fff;margin-bottom:4px">Save 10+ hours every week with AI</div><div style="font-size:13px;color:rgba(255,255,255,.55)">8 tools for question papers, lesson plans, reports, newsletters and more</div></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:13px">
+    ${tools.map(t=>`<div style="background:${t.c};border:1px solid ${t.b};border-radius:var(--r);padding:18px;cursor:pointer;transition:border-color .2s" onclick="toast('Generating ${t.t}...','g');setTimeout(()=>toast('✅ ${t.t} ready! Download PDF','s'),2200)"><div style="font-size:28px;margin-bottom:11px">${t.ic}</div><div style="font-size:14px;font-weight:700;margin-bottom:5px;letter-spacing:-.2px">${t.t}</div><div style="font-size:12.5px;color:rgba(255,255,255,.58);line-height:1.6;margin-bottom:13px">${t.d}</div><button class="btn bv btn-sm" onclick="event.stopPropagation()">✨ Generate Now</button></div>`).join('')}
+  </div>`
+}
+
+function pLeaderboard(){
+  return `<div class="hero-banner" style="background:linear-gradient(135deg,rgba(245,158,11,.14),rgba(249,115,22,.08));border:1px solid rgba(245,158,11,.25);margin-bottom:18px"><div style="font-size:12px;font-weight:700;color:#fbbf24;letter-spacing:.5px;margin-bottom:4px">🏆 LEADERBOARD & GAMIFICATION</div><div style="font-size:20px;font-weight:800;color:#fff">Boost student engagement by 40%</div></div>
+  <div class="tw"><div class="tw-h"><div class="tw-t">🏆 Class Rankings</div></div>
+  <table><thead><tr><th>Rank</th><th>Student</th><th>Class</th><th>Score</th><th>Streak 🔥</th><th>Badges</th></tr></thead>
+  <tbody>${DB.leaderboard.map(l=>`<tr><td style="font-size:22px">${l.badge||l.rank}</td><td><strong>${l.name}</strong></td><td>${l.cls}</td><td style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:800;color:var(--amber)">${l.score}%</td><td style="color:var(--rose);font-weight:700">🔥 ${l.streak}d</td><td>${l.rank<=3?'⭐':''}${l.streak>=10?'🔥':''}${l.score>=90?'💎':''}</td></tr>`).join('')}</tbody></table></div>`
+}
+
+function pGoals(){
+  const goals=[{s:'Aarav Sharma',g:'Score 90% in Maths',p:88,t:90,st:'on-track'},{s:'Priya Patel',g:'100% Attendance',p:97,t:100,st:'on-track'},{s:'Rohan Gupta',g:'Improve avg to 75%',p:69,t:75,st:'at-risk'}]
+  return `<div style="display:flex;justify-content:flex-end;margin-bottom:13px"><button class="btn bv" onclick="toast('Creating goal...','g')">+ Set New Goal</button></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:13px">
+    ${goals.map(g=>`<div class="gc gcp" style="border-color:${g.st==='on-track'?'rgba(16,185,129,.24)':'rgba(244,63,94,.24)'}"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px"><div style="font-weight:700;font-size:14px">${g.s}</div>${bdg(g.st==='on-track'?'On Track':'At Risk',g.st==='on-track'?'b-em':'b-ro')}</div><div style="font-size:13px;color:rgba(255,255,255,.68);margin-bottom:13px">🎯 ${g.g}</div><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:12px;color:var(--muted)">Progress</span><span style="font-size:13px;font-weight:700;color:${g.st==='on-track'?'var(--em)':'var(--rose)'}">${g.p}% / ${g.t}%</span></div>${pb(Math.round(g.p/g.t*100),g.st==='on-track'?'var(--em)':'var(--rose)')}<button class="btn bgh btn-sm" style="width:100%;margin-top:11px" onclick="toast('Motivational message sent! 📲','w')">📲 Send Motivation</button></div>`).join('')}
+  </div>`
+}
+
+function pChat(){
+  const convs=[{n:'Rajesh Sharma',last:"When is the next exam?",t:'2m ago',u:1},{n:'Sunil Patel',last:'Thank you!',t:'1h ago',u:0},{n:'Amit Gupta',last:'Rohan is improving',t:'3h ago',u:2}]
+  return `<div class="hero-banner" style="background:linear-gradient(135deg,rgba(59,130,246,.13),rgba(139,92,246,.09));border:1px solid rgba(59,130,246,.2);margin-bottom:18px"><div style="font-size:12px;font-weight:700;color:#7dd3fc;letter-spacing:.5px;margin-bottom:4px">💭 PARENT-TEACHER CHAT</div><div style="font-size:20px;font-weight:800;color:#fff">Private, professional communication</div></div>
+  <div class="two-c"><div class="gc gcp"><div class="gct">💬 Conversations</div>${convs.map(c=>`<div style="display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer"><div style="width:40px;height:40px;border-radius:50%;background:rgba(59,130,246,.18);display:flex;align-items:center;justify-content:center;font-size:17px;position:relative">👨‍👩‍👦${c.u?`<div style="position:absolute;top:-2px;right:-2px;width:16px;height:16px;background:var(--rose);border-radius:50%;border:2px solid var(--bg);font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700">${c.u}</div>`:''}</div><div style="flex:1"><div style="font-size:13px;font-weight:600">${c.n}</div><div style="font-size:11.5px;color:var(--muted)">${c.last}</div></div><div style="font-size:11px;color:var(--muted)">${c.t}</div></div>`).join('')}</div>
+  <div class="gc gcp"><div class="gct">💭 Rajesh Sharma</div><div style="display:flex;flex-direction:column;gap:9px;margin-bottom:13px"><div style="background:rgba(255,255,255,.07);border-radius:12px 12px 12px 4px;padding:10px 13px;max-width:85%"><div style="font-size:12.5px">When is the next exam?</div><div style="font-size:10.5px;color:var(--muted);margin-top:4px">2:32 PM</div></div><div style="background:rgba(59,130,246,.18);border:1px solid rgba(59,130,246,.22);border-radius:12px 12px 4px 12px;padding:10px 13px;max-width:85%;align-self:flex-end"><div style="font-size:12.5px">Unit test is June 8th. Syllabus shared shortly 📚</div><div style="font-size:10.5px;color:rgba(255,255,255,.45);margin-top:4px">2:35 PM · ✓✓</div></div></div><div style="display:flex;gap:8px"><input class="fi" placeholder="Type message..." style="flex:1"/><button class="btn bb btn-sm" onclick="toast('Sent!','s')">Send</button></div></div></div>`
+}
+
+// ════════════════════════════════════════
+// PREMIUM PAGES
+// ════════════════════════════════════════
+function pFaceAtt(){
+  return `<div class="hero-banner" style="background:linear-gradient(135deg,rgba(245,158,11,.14),rgba(249,115,22,.08));border:1px solid rgba(245,158,11,.25);margin-bottom:18px"><div style="font-size:12px;font-weight:700;color:#fbbf24;letter-spacing:.5px;margin-bottom:4px">👁️ FACE RECOGNITION ATTENDANCE</div><div style="font-size:20px;font-weight:800;color:#fff">AI-powered contactless attendance — 99%+ accuracy</div><div style="font-size:13px;color:rgba(255,255,255,.55);margin-top:3px">Students marked present as they walk in. WhatsApp to parent instantly. Zero manual work.</div></div>
+  <div class="thr-c" style="margin-bottom:15px">${[[5,'Students IN','var(--em)'],[1,'Absent','var(--rose)'],[0,'Unrecognized','var(--amber)']].map(([v,l,c])=>`<div class="gc gcp" style="text-align:center;padding:14px"><div style="font-family:'Outfit',sans-serif;font-size:28px;font-weight:800;color:${c}">${v}</div><div style="font-size:12px;color:var(--muted);margin-top:2px">${l}</div></div>`).join('')}</div>
+  <div style="display:flex;gap:9px;margin-bottom:14px;flex-wrap:wrap"><button class="btn bg2 btn-sm" onclick="toast('Enrolling new face...','g')">📸 Enroll New Face</button><button class="btn bw btn-sm" onclick="toast('Report sent to all parents! 📲','w')">📲 Send Today\'s Report</button><button class="btn bgh btn-sm" onclick="toast('Exported!','s')">📊 Export CSV</button></div>
+  <div class="tw"><div class="tw-h"><div class="tw-t">👁️ Today's Recognition Log</div></div>
+  <table><thead><tr><th>Student</th><th>Class</th><th>Time</th><th>Gate</th><th>Confidence</th><th>Status</th><th>WhatsApp Alert</th></tr></thead>
+  <tbody>${DB.faceAttLogs.map(l=>`<tr><td><div style="display:flex;align-items:center;gap:9px"><div style="width:36px;height:36px;border-radius:50%;border:2px solid ${l.status==='IN'?'var(--em)':'var(--rose)'};display:flex;align-items:center;justify-content:center;font-size:16px">${l.status==='IN'?'😊':'❌'}</div><strong>${l.student}</strong></div></td><td>${DB.students.find(s=>s.name===l.student)?.cls||'—'}</td><td style="font-weight:600">${l.time}</td><td>${l.gate}</td><td style="font-weight:700;color:${l.conf>97?'var(--em)':l.conf>90?'var(--amber)':'var(--muted)'}">${l.conf>0?l.conf+'%':'—'}</td><td>${bdg(l.status,l.status==='IN'?'b-em':'b-ro')}</td><td>${l.status==='IN'?bdg('✓ Sent','b-em'):bdg('⚠ Alert Sent','b-ro')}</td></tr>`).join('')}</tbody></table></div>
+  <div class="gc gcp"><div class="gct">⚙️ Tech Behind Face Recognition</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:11px">${[['📸','Enroll (once)','Admin takes student photo. AI stores 128-point face landmarks.'],['🚶','Student walks in','Camera at gate captures face as student enters. < 0.3 second.'],['🧠','AI Matches','DeepFace algorithm matches in real-time. 99%+ accuracy.'],['✅','Auto marked','Attendance in database instantly. No teacher needed. Zero errors.'],['📲','WhatsApp alert','Parent receives: "Aarav entered school at 7:52 AM ✅"'],['📊','Full audit trail','Timestamp, gate, confidence score per recognition. 100% auditable.']].map(([ic,t,d])=>`<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:14px"><div style="font-size:22px;margin-bottom:8px">${ic}</div><div style="font-size:13px;font-weight:700;margin-bottom:4px">${t}</div><div style="font-size:11.5px;color:var(--muted);line-height:1.55">${d}</div></div>`).join('')}</div>
+  <div style="margin-top:13px;padding:12px 14px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.18);border-radius:9px;font-size:12.5px;color:rgba(255,255,255,.7)">💡 <strong>Tech Stack:</strong> Raspberry Pi 4 + USB Camera → Python DeepFace → Supabase → Baileys WhatsApp. Setup cost ~₹8,000/gate.</div></div>`
+}
+
+function pGPS(){
+  return `<div class="hero-banner" style="background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(6,182,212,.07));border:1px solid rgba(16,185,129,.2);margin-bottom:18px"><div style="font-size:12px;font-weight:700;color:#6ee7b7;letter-spacing:.5px;margin-bottom:4px">📍 BUS GPS TRACKING</div><div style="font-size:20px;font-weight:800;color:#fff">Real-time bus location for every parent</div><div style="font-size:13px;color:rgba(255,255,255,.55);margin-top:3px">Parents track bus on app. Auto-WhatsApp when 5 minutes away from their stop.</div></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:14px">
+    ${DB.buses.map(b=>`<div class="gc gcp" style="border-color:${b.status==='arrived'?'rgba(59,130,246,.3)':b.status==='running'?'rgba(16,185,129,.3)':'rgba(245,158,11,.3)'}">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px"><div style="font-size:15px;font-weight:800">${b.route}</div>${bdg(b.status==='arrived'?'Arrived':b.status==='running'?'🟢 Running':'🟡 En Route',b.status==='arrived'?'b-bl':b.status==='running'?'b-em':'b-am')}</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px">🚗 ${b.driver} · ${b.vehicle} · ${b.students} students</div>
+      <div style="background:rgba(255,255,255,.06);border-radius:9px;padding:12px;margin-bottom:10px;text-align:center">
+        <div class="gps-dot" style="margin:0 auto 7px;background:${b.status==='arrived'?'var(--blue)':b.status==='running'?'var(--em)':'var(--amber)'}"></div>
+        <div style="font-size:18px;font-weight:800;color:${b.status==='arrived'?'var(--blue)':b.status==='running'?'var(--em)':'var(--amber)'}">ETA: ${b.eta}</div>
+      </div>
+      <div style="font-size:11.5px;color:var(--muted);margin-bottom:10px">Route: ${b.stops.join(' → ')}</div>
+      <div style="display:flex;gap:7px">
+        <button class="btn bw btn-sm" style="flex:1" onclick="toast('Alert set for 5 mins away! 📲','w')">📲 Alert Me</button>
+        <button class="btn bgh btn-sm" onclick="toast('Opening live map...','i')">🗺️ Map</button>
+      </div>
+    </div>`).join('')}
+  </div>`
+}
+
+function pHealth(){
+  return `<div class="hero-banner" style="background:linear-gradient(135deg,rgba(244,63,94,.1),rgba(249,115,22,.07));border:1px solid rgba(244,63,94,.2);margin-bottom:18px"><div style="font-size:12px;font-weight:700;color:#fda4af;letter-spacing:.5px;margin-bottom:4px">🏥 STUDENT HEALTH RECORDS</div><div style="font-size:20px;font-weight:800;color:#fff">Complete digital health management</div></div>
+  <div style="display:flex;gap:9px;margin-bottom:14px;flex-wrap:wrap"><button class="btn bg2 btn-sm" onclick="toast('Schedule checkup...','g')">📅 Schedule Checkup</button><button class="btn bw btn-sm" onclick="toast('Health alerts sent! 📲','w')">📲 Alert High-Risk</button><button class="btn bgh btn-sm" onclick="toast('Exported!','s')">📊 Export</button></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:13px">
+    ${DB.students.map(s=>`<div class="gc gcp"><div style="display:flex;align-items:center;gap:12px;margin-bottom:13px"><div style="width:44px;height:44px;border-radius:50%;border:2px solid ${s.health.allergy!=='None'?'var(--rose)':'var(--em)'};display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${s.name[0]}</div><div><div style="font-size:14px;font-weight:700">${s.name}</div><div style="font-size:11.5px;color:var(--muted)">Class ${s.cls}</div></div><div style="margin-left:auto">${bdg(s.health.bmi>25?'Overweight':s.health.bmi<18.5?'Underweight':'Healthy',s.health.bmi>25||s.health.bmi<18.5?'b-am':'b-em')}</div></div>
+    <div class="g3" style="gap:7px;margin-bottom:11px">${[['Height',s.health.height+' cm'],['Weight',s.health.weight+' kg'],['BMI',s.health.bmi+'']].map(([k,v])=>`<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:9px;text-align:center"><div style="font-size:14px;font-weight:800;color:var(--gold)">${v}</div><div style="font-size:10.5px;color:var(--muted);margin-top:2px">${k}</div></div>`).join('')}</div>
+    <div style="font-size:12px;margin-bottom:8px">🩸 ${s.health.blood} &nbsp;⚠️ <span style="color:${s.health.allergy!=='None'?'var(--rose)':'var(--muted)'}">${s.health.allergy}</span> &nbsp;👁️ ${s.health.vision}</div>
+    <div style="display:flex;gap:6px"><button class="btn bgh btn-xs" onclick="toast('Editing...','i')">✏️ Update</button>${s.health.allergy!=='None'?`<button class="btn br btn-xs" onclick="toast('Alert sent to ${s.parent}! 📲','w')">📲 Alert</button>`:''}</div>
+    </div>`).join('')}
+  </div>`
+}
+
+function pVideoPTM(){
+  const ptmVid=[{teacher:'Mrs. Kavitha',parent:'Rajesh Sharma',student:'Aarav',date:'2026-05-30',time:'9:00 AM',type:'video',status:'confirmed',link:'meet.edusync.in/rm-abc123'},{teacher:'Mr. Deepak',parent:'Sunil Patel',student:'Priya',date:'2026-05-30',time:'9:30 AM',type:'video',status:'scheduled',link:'meet.edusync.in/rm-def456'}]
+  return `<div class="hero-banner" style="background:linear-gradient(135deg,rgba(139,92,246,.14),rgba(59,130,246,.09));border:1px solid rgba(139,92,246,.24);margin-bottom:18px"><div style="font-size:12px;font-weight:700;color:#c4b5fd;letter-spacing:.5px;margin-bottom:4px">🎥 VIDEO PTM</div><div style="font-size:20px;font-weight:800;color:#fff">Parent-Teacher meetings from anywhere</div><div style="font-size:13px;color:rgba(255,255,255,.55);margin-top:3px">Built-in Jitsi video calls. Parent joins from their phone — no app download needed.</div></div>
+  <div style="display:flex;gap:9px;margin-bottom:14px"><button class="btn bv btn-sm" onclick="toast('Creating video PTM...','g')">+ Schedule Video PTM</button><button class="btn bw btn-sm" onclick="toast('Links sent to all parents! 📲','w')">📲 Send Meeting Links</button></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:13px">
+    ${ptmVid.map(p=>`<div class="gc gcp" style="border-color:rgba(139,92,246,.3)"><div style="background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(139,92,246,.08));border-radius:11px;padding:18px;text-align:center;margin-bottom:13px"><div style="font-size:30px;margin-bottom:8px">🎥</div><div style="font-size:14px;font-weight:700">${p.teacher} & ${p.parent}</div><div style="font-size:12px;color:var(--muted);margin-top:3px">Re: ${p.student} · ${p.date} at ${p.time}</div><div style="margin-top:9px;display:flex;gap:7px;justify-content:center">${bdg('Video Call','b-vi')} ${bdg(p.status,p.status==='confirmed'?'b-em':'b-bl')}</div><div style="margin-top:8px;font-size:11px;color:var(--blue)">${p.link}</div></div><div style="display:flex;gap:7px"><button class="btn bb btn-sm" style="flex:1" onclick="toast('Opening video call...','i')">🎥 Join Now</button><button class="btn bw btn-xs" onclick="toast('Link sent! 📲','w')">📲 Send Link</button></div></div>`).join('')}
+  </div>`
+}
+
+function pBranding(){
+  return `<div class="hero-banner" style="background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(6,182,212,.07));border:1px solid rgba(16,185,129,.2);margin-bottom:18px"><div style="font-size:12px;font-weight:700;color:#6ee7b7;letter-spacing:.5px;margin-bottom:4px">🎨 CUSTOM SCHOOL BRANDING</div><div style="font-size:20px;font-weight:800;color:#fff">Your school. Your identity. Your colors.</div></div>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:16px">White-label the entire platform with your school's logo, name, and colors. The app becomes your school's own system — not EduSync's.</div>
+  <button class="btn bb" onclick="go('settings')">🎨 Open Branding Settings →</button>`
+}
+
+function pLibrary(){
+  return `<div class="hero-banner" style="background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(139,92,246,.08));border:1px solid rgba(59,130,246,.2);margin-bottom:18px"><div style="font-size:12px;font-weight:700;color:#7dd3fc;letter-spacing:.5px;margin-bottom:4px">📚 DIGITAL LIBRARY</div><div style="font-size:20px;font-weight:800;color:#fff">Share study material instantly</div></div>
+  <div style="display:flex;justify-content:flex-end;margin-bottom:13px;gap:8px">${role==='admin'||role==='teacher'?`<button class="btn bb" onclick="toast('Uploading...','i')">📤 Upload Resource</button>`:''}</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:12px">
+    ${DB.library.map(l=>`<div class="gc gcp" style="cursor:pointer" onclick="toast('Opening ${l.title}...','i')"><div style="display:flex;gap:11px;margin-bottom:10px"><div style="width:42px;height:42px;border-radius:10px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">📄</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.title}</div><div style="font-size:11.5px;color:var(--muted)">${l.sub} · Class ${l.cls} · ${l.size}</div></div></div><div style="display:flex;align-items:center;justify-content:space-between">${bdg(l.type,'b-bl')}<div style="display:flex;align-items:center;gap:6px"><span style="font-size:11.5px;color:var(--muted)">⬇️ ${l.dl}</span><button class="btn be btn-xs" onclick="event.stopPropagation();toast('Downloaded!','s')">⬇️</button></div></div></div>`).join('')}
+  </div>`
+}
+
+function pMultiBranch(){
+  const branches=[{name:'Main Campus',city:'Mumbai',students:342,staff:38,status:'active'},{name:'West Campus',city:'Mumbai',students:185,staff:22,status:'active'},{name:'Pune Branch',city:'Pune',students:124,staff:18,status:'active'}]
+  return `<div class="hero-banner" style="background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(249,115,22,.08));border:1px solid rgba(245,158,11,.22);margin-bottom:18px"><div style="font-size:12px;font-weight:700;color:#fbbf24;letter-spacing:.5px;margin-bottom:4px">🏢 MULTI-BRANCH MANAGEMENT</div><div style="font-size:20px;font-weight:800;color:#fff">One dashboard — all your campuses</div></div>
+  <div class="sg">${sc('🏢','Total Branches','3','All active','up','rgba(245,158,11,.07)')}${sc('👦','Total Students','651','All branches','up','rgba(59,130,246,.07)')}${sc('👥','Total Staff','78','Teachers + Admin','up','rgba(16,185,129,.07)')}${sc('💰','Combined Billing','₹7,999/mo','Single invoice','up','rgba(16,185,129,.07)')}</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:13px">
+    ${branches.map(b=>`<div class="gc gcp"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px"><div style="font-size:15px;font-weight:700">${b.name}</div>${bdg('Active','b-em')}</div><div style="font-size:12.5px;color:var(--muted);margin-bottom:11px">📍 ${b.city}</div><div class="g2" style="gap:8px;margin-bottom:11px">${[['👦',b.students,'Students'],['👥',b.staff,'Staff']].map(([ic,v,l])=>`<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:10px;text-align:center"><div style="font-size:18px;font-weight:800;color:var(--gold)">${v}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${ic} ${l}</div></div>`).join('')}</div><button class="btn bgh btn-sm" style="width:100%" onclick="toast('Switching to ${b.name}...','g')">Switch Branch</button></div>`).join('')}
+    <div style="background:rgba(255,255,255,.02);border:1.5px dashed rgba(255,255,255,.12);border-radius:var(--r);padding:22px;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px" onclick="toast('Adding new branch...','g')"><div style="font-size:36px">🏢</div><div style="font-size:13px;font-weight:600;color:var(--muted)">Add New Branch</div></div>
+  </div>`
+}
+
+// ════════════════════════════════════════
+// MODAL & TOAST
+// ════════════════════════════════════════
+function showModal(html){document.getElementById('modalRoot').innerHTML=`<div class="mov" onclick="if(event.target===this)closeModal()"><div class="mi mi-w">${html}</div></div>`}
+function closeModal(){document.getElementById('modalRoot').innerHTML=''}
+function toast(msg,t='i'){
+  const cls={s:'t-s',e:'t-e',i:'t-i',w:'t-w',g:'t-g'}
+  const ic={s:'✓',e:'✕',i:'ℹ',w:'💬',g:'💎'}
+  const id='t'+Date.now()
+  document.getElementById('toastRoot').innerHTML+=`<div class="${cls[t]||'t-i'} toast" id="${id}">${ic[t]||'ℹ'} ${msg}</div>`
+  setTimeout(()=>{const el=document.getElementById(id);if(el)el.remove()},3600)
+}
+</script>
+</body>
+</html>
